@@ -1,11 +1,9 @@
+# ISIL DZ — Preview Section
 | | |
 |---|---|
-| ![]<img width="500" height="500" alt="Capture d&#39;écran 2026-05-17 021002" src="https://github.com/user-attachments/assets/6cb0f49a-71e6-4f50-9fdb-439f3e6d480c" />
-| ![]<img width="500" height="500" alt="Capture d&#39;écran 2026-05-17 021028" src="https://github.com/user-attachments/assets/a1c4aa62-d04e-4c8d-ba65-286898b18fd0" /> |
-| ![]<img width="500" height="500" alt="Capture d&#39;écran 2026-05-17 020946" src="https://github.com/user-attachments/assets/08fabd63-a976-4cba-81e2-34a88916b109" />
-| ![]<img width="500" height="500" alt="Capture d&#39;écran 2026-05-17 020931" src="https://github.com/user-attachments/assets/cedb129f-be11-4275-8900-b54819b0253e" /> |
-| ![]<img width="500" height="500" alt="Capture d&#39;écran 2026-05-17 020916" src="https://github.com/user-attachments/assets/5de23b4d-aaa9-4b62-a1c1-2be5761d3c50" />
-| ![]<img width="500" height="500" alt="Capture d&#39;écran 2026-05-17 020827" src="https://github.com/user-attachments/assets/731112fd-9c49-42ad-9d06-51d01258b9a2" /> |
+| <img width="260" height="220" alt="Screenshot 1" src="https://github.com/user-attachments/assets/6cb0f49a-71e6-4f50-9fdb-439f3e6d480c" /> | <img width="260" height="220" alt="Screenshot 2" src="https://github.com/user-attachments/assets/a1c4aa62-d04e-4c8d-ba65-286898b18fd0" /> |
+| <img width="260" height="220" alt="Screenshot 3" src="https://github.com/user-attachments/assets/08fabd63-a976-4cba-81e2-34a88916b109" /> | <img width="260" height="220" alt="Screenshot 4" src="https://github.com/user-attachments/assets/cedb129f-be11-4275-8900-b54819b0253e" /> |
+| <img width="260" height="220" alt="Screenshot 5" src="https://github.com/user-attachments/assets/5de23b4d-aaa9-4b62-a1c1-2be5761d3c50" /> | <img width="260" height="220" alt="Screenshot 6" src="https://github.com/user-attachments/assets/731112fd-9c49-42ad-9d06-51d01258b9a2" /> |
 # ISIL DZ — Odoo 17 Enterprise Management System
 
 A custom Odoo 17 Community setup built for online enterprises, featuring 6 purpose-built modules with a unified design system. 
