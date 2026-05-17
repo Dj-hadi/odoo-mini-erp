@@ -1,6 +1,6 @@
 # ISIL DZ — Odoo 17 Enterprise Management System
 
-A custom Odoo 17 Community setup built for Algerian enterprises, featuring 7 purpose-built modules with a unified design system.
+A custom Odoo 17 Community setup built for online enterprises, featuring 6 purpose-built modules with a unified design system. 
 
 ## Modules
 
@@ -19,19 +19,19 @@ A custom Odoo 17 Community setup built for Algerian enterprises, featuring 7 pur
 - [Docker](https://docs.docker.com/get-docker/)
 - [Docker Compose](https://docs.docker.com/compose/install/) (v2+)
 
-## Quick Start
+## Quick Start <- (not recommended)
 
 ```bash
-git clone <your-repo-url>
-cd odoo-project
+git clone https://github.com/Dj-hadi/odoo-mini-erp
+cd odoo-mini-erp
 bash setup.sh
 ```
 
 Then open **http://localhost:8069** and log in with `admin` / `admin`.
 
-> The setup script starts the containers, waits for Postgres, creates the `GRH` database, and installs all 7 modules automatically. Takes about 2 minutes.
+The setup script inistially starts the containers, waits for Postgres, creates the `GRH` database, and installs all 7 modules automatically. Shouldn't take a long time (2 minutes) unless you have terrible internet like me.
 
-## Manual Setup (alternative)
+## Manual Setup (alternative) <- (recommended)
 
 ```bash
 # 1. Start containers
@@ -63,10 +63,9 @@ odoo-project/
 ├── docker-compose.yml
 └── setup.sh                 # One-command setup
 ```
+there should also be a ./data sub folder for postgreSQL data handling which is not included here
 
-> `data/` is excluded from git (PostgreSQL data and Odoo filestore are machine-specific).
-
-## Stopping / Restarting
+## Stopping / Restarting (if needed after tweaking source code)
 
 ```bash
 docker compose down        # stop containers, keep data
@@ -74,20 +73,20 @@ docker compose up -d       # start again (data preserved)
 docker compose down -v     # stop and DELETE all data (full reset)
 ```
 
-## Upgrading a Module After Code Changes
+## Upgrading a Module After Code Changes (after restarting)
 
 ```bash
 docker compose exec odoo odoo -u <module_name> -d GRH --stop-after-init
 docker compose restart odoo
 ```
 
-## Configuration
+## Configuration (needed to log into GRH)
 
 Edit `config/odoo.conf` to change:
 - `admin_passwd` — master password for the Odoo settings page
 - `log_level` — `debug` for development, `info` for production
 
-## Tech Stack
+## Tech Stack (specs)
 
 - **Odoo 17.0 Community** (`odoo:17.0` Docker image)
 - **PostgreSQL 15** (`postgres:15` Docker image)
