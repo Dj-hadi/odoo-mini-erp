@@ -1,0 +1,271 @@
+﻿// ═══════════════════════════════════════════════════════════════════
+//  ISIL FINANCIAL ANALYTICS — STYLES  (finance_tables.scss)
+// ═══════════════════════════════════════════════════════════════════
+
+// ── Account Type Badge ────────────────────────────────────────────
+
+.ifa-actype-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 2px 9px;
+    border-radius: var(--fa-radius-full, 9999px);
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+
+    .fa { font-size: 9px; }
+
+    &.ifa-type-asset      { background: var(--ifa-type-asset-bg);      color: var(--ifa-type-asset-col); }
+    &.ifa-type-liability  { background: var(--ifa-type-liability-bg);  color: var(--ifa-type-liability-col); }
+    &.ifa-type-receivable { background: var(--ifa-type-receivable-bg); color: var(--ifa-type-receivable-col); }
+    &.ifa-type-payable    { background: var(--ifa-type-payable-bg);    color: var(--ifa-type-payable-col); }
+    &.ifa-type-wage       { background: var(--ifa-type-wage-bg);       color: var(--ifa-type-wage-col); }
+}
+
+// ── Shared table chrome ───────────────────────────────────────────
+
+.o_list_view.ifa-finance-tree {
+
+    thead th {
+        background: var(--fa-surface-2, #F9FAFB) !important;
+        border-bottom: 2px solid var(--fa-primary-light, #D1FAE5) !important;
+        font-size: 11px !important;
+        font-weight: 700 !important;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--fa-text-muted, #6B7280) !important;
+        padding: 10px 14px !important;
+    }
+
+    tbody tr.o_data_row {
+        td {
+            padding: 9px 14px !important;
+            vertical-align: middle !important;
+            border-bottom: 1px solid var(--fa-border, #E5E7EB) !important;
+        }
+        &:hover td { background: var(--fa-primary-light, #D1FAE5) !important; }
+    }
+
+    // Positive balance rows — subtle green tint
+    tbody tr.o_data_row.o_success td {
+        background: rgba(209, 250, 229, 0.3) !important;
+    }
+
+    // Negative balance rows — subtle red tint
+    tbody tr.o_data_row.o_danger td {
+        background: rgba(254, 226, 226, 0.3) !important;
+    }
+
+    tbody tr.o_data_row.o_muted td { opacity: 0.5; }
+
+    // Monetary columns — monospaced, right-aligned
+    td[data-name="debit"],
+    td[data-name="credit"],
+    td[data-name="balance"],
+    td[data-name="amount_gross"],
+    td[data-name="tax_amount"],
+    td[data-name="amount_net"],
+    td[data-name="total_balance"],
+    td[data-name="Credit_Score"],
+    td[data-name="Debit_Score"],
+    td[data-name="Total_With_Tax"] {
+        font-family: "SFMono-Regular", Consolas, monospace !important;
+        font-weight: 600 !important;
+        text-align: right !important;
+    }
+
+    td[data-name="balance"] {
+        font-weight: 700 !important;
+        color: var(--fa-primary, #059669) !important;
+    }
+
+    td[data-name="amount_net"] {
+        font-weight: 700 !important;
+        color: var(--fa-primary, #059669) !important;
+    }
+}
+
+// ── Analytic Report — Financial Summary Panel ─────────────────────
+
+.ifa-report-summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin: 0 0 20px;
+}
+
+.ifa-summary-card {
+    border-radius: var(--fa-radius, 10px);
+    padding: 16px 20px;
+    border: 1px solid transparent;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+        content: '';
+        position: absolute;
+        right: -12px;
+        top: -12px;
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        opacity: 0.08;
+        background: currentColor;
+    }
+
+    .ifa-summary-icon {
+        font-size: 18px;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    .ifa-summary-label {
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        opacity: 0.7;
+        margin-bottom: 6px;
+    }
+
+    .ifa-summary-value {
+        font-size: 22px;
+        font-weight: 800;
+        font-family: "SFMono-Regular", Consolas, monospace;
+        line-height: 1;
+
+        .o_field_widget, .o_field_monetary { font-size: inherit !important; font-weight: inherit !important; color: inherit !important; }
+    }
+
+    &.ifa-card-debit {
+        background: var(--fa-debit-bg, #DBEAFE);
+        border-color: #BFDBFE;
+        color: var(--fa-debit-col, #1E40AF);
+    }
+
+    &.ifa-card-credit {
+        background: var(--fa-credit-bg, #D1FAE5);
+        border-color: #A7F3D0;
+        color: var(--fa-credit-col, #065F46);
+    }
+
+    &.ifa-card-balance-pos {
+        background: var(--fa-balance-pos-bg, #D1FAE5);
+        border-color: #6EE7B7;
+        border-left: 4px solid var(--fa-primary, #059669);
+        color: var(--fa-balance-pos-col, #065F46);
+    }
+
+    &.ifa-card-balance-neg {
+        background: var(--fa-balance-neg-bg, #FEE2E2);
+        border-color: #FCA5A5;
+        border-left: 4px solid #DC2626;
+        color: var(--fa-balance-neg-col, #7F1D1D);
+    }
+
+    &.ifa-card-balance-zero {
+        background: var(--fa-balance-zero-bg, #F3F4F6);
+        border-color: var(--fa-border, #E5E7EB);
+        border-left: 4px solid #9CA3AF;
+        color: var(--fa-balance-zero-col, #6B7280);
+    }
+}
+
+// ── Analytic Report — Lines inline table ──────────────────────────
+
+.ifa-lines-table .o_editable_list_view td {
+    font-family: "SFMono-Regular", Consolas, monospace;
+    font-size: 13px;
+}
+
+// ── Analytic Account form ─────────────────────────────────────────
+
+.ifa-account-form .o_form_sheet {
+    border-top: 3px solid var(--fa-primary, #059669) !important;
+}
+
+// ── General Ledger ────────────────────────────────────────────────
+
+.o_list_view.ifa-finance-tree td[data-name="description"] {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+// ── Wages ─────────────────────────────────────────────────────────
+
+.ifa-wages-summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 14px;
+    padding: 14px 18px;
+    background: var(--fa-primary-light, #D1FAE5);
+    border-radius: var(--fa-radius, 10px);
+    border: 1px solid #A7F3D0;
+}
+
+.ifa-wages-stat {
+    text-align: center;
+
+    .iifa-wages-stat-label {
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--fa-primary-dark, #047857);
+        margin-bottom: 4px;
+    }
+
+    .iifa-wages-stat-value {
+        font-size: 18px;
+        font-weight: 800;
+        color: var(--fa-primary-dark, #047857);
+        font-family: "SFMono-Regular", Consolas, monospace;
+
+        .o_field_widget { font-size: inherit !important; font-weight: inherit !important; color: inherit !important; }
+    }
+}
+
+// ── Asset Management ──────────────────────────────────────────────
+
+.o_list_view.ifa-finance-tree td[data-name="Asset_Name"] {
+    font-weight: 600 !important;
+    color: var(--fa-primary-dark, #047857) !important;
+}
+
+// ── Form headers ──────────────────────────────────────────────────
+
+.ifa-form-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--fa-text, #111827);
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--fa-primary-light, #D1FAE5);
+    margin-bottom: 16px;
+}
+
+// ── Taxation settings ─────────────────────────────────────────────
+
+.ifa-tax-config {
+    background: linear-gradient(135deg, var(--fa-primary-light, #D1FAE5) 0%, #fff 100%);
+    border: 1px solid #A7F3D0;
+    border-left: 4px solid var(--fa-primary, #059669);
+    border-radius: var(--fa-radius, 10px);
+    padding: 20px 24px;
+    margin-bottom: 16px;
+
+    .ifa-tax-header {
+        font-size: 12px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--fa-primary-dark, #047857);
+        margin-bottom: 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+}

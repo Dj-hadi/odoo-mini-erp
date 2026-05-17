@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+
+<t t-name="isil_dashboard.Dashboard">
+<div class="db-root">
+
+    <!-- ── Loading ──────────────────────────────────────────── -->
+    <div t-if="state.loading" class="db-loading">
+        <i class="fa fa-circle-o-notch fa-spin fa-2x"/>
+        <p>Loading dashboard data…</p>
+    </div>
+
+    <t t-else="">
+
+    <!-- ── Hero Header ──────────────────────────────────────── -->
+    <div class="db-hero">
+        <div>
+            <div class="db-hero-brand">
+                <i class="fa fa-building-o"/>
+                ISIL Enterprise Platform
+            </div>
+            <div class="db-hero-title">Business Intelligence Dashboard</div>
+            <div class="db-hero-sub">Real-time overview across all operations</div>
+        </div>
+        <div class="db-hero-meta">
+            <div class="db-hero-date">
+                <i class="fa fa-calendar-o"/>
+                <t t-esc="currentDate"/>
+            </div>
+            <button class="db-hero-refresh" t-on-click="refresh">
+                <i t-att-class="'fa fa-refresh' + (state.spinning ? ' db-spin' : '')"/>
+                Refresh
+            </button>
+        </div>
+    </div>
+
+    <!-- ── KPI Bar ───────────────────────────────────────────── -->
+    <div class="db-kpi-bar">
+
+        <div class="db-kpi-tile db-kpi-sales" t-on-click="() => go('sales')">
+            <div class="db-kpi-icon"><i class="fa fa-shopping-cart"/></div>
+            <div class="db-kpi-body">
+                <div class="db-kpi-value"><t t-esc="fmt(state.sales.total_revenue)"/> DA</div>
+                <div class="db-kpi-label">Total Revenue</div>
+                <div class="db-kpi-sub"><t t-esc="state.sales.total_orders"/> confirmed orders</div>
+            </div>
+            <i class="fa fa-chevron-right db-kpi-arrow"/>
+        </div>
+
+        <div class="db-kpi-tile db-kpi-stock" t-on-click="() => go('stock')">
+            <div class="db-kpi-icon"><i class="fa fa-cubes"/></div>
+            <div class="db-kpi-body">
+                <div class="db-kpi-value"><t t-esc="state.stock.total_products"/></div>
+                <div class="db-kpi-label">Products in Stock</div>
+                <div t-if="state.stock.active_alerts > 0"
+                     class="db-kpi-sub db-kpi-alert">
+                    <i class="fa fa-exclamation-triangle"/>
+                    <t t-esc="state.stock.active_alerts"/> low-stock alerts
+                </div>
+                <div t-else="" class="db-kpi-sub db-kpi-ok">All levels healthy</div>
+            </div>
+            <i class="fa fa-chevron-right db-kpi-arrow"/>
+        </div>
+
+        <div class="db-kpi-tile db-kpi-mfg" t-on-click="() => go('manufacturing')">
+            <div class="db-kpi-icon"><i class="fa fa-industry"/></div>
+            <div class="db-kpi-body">
+                <div class="db-kpi-value"><t t-esc="state.mfg.orders_in_progress"/></div>
+                <div class="db-kpi-label">Orders in Progress</div>
+                <div t-if="state.mfg.pending_qc > 0"
+                     class="db-kpi-sub db-kpi-alert">
+                    <i class="fa fa-flask"/>
+                    <t t-esc="state.mfg.pending_qc"/> QC pending
+                </div>
+                <div t-else="" class="db-kpi-sub db-kpi-ok">All QC clear</div>
+            </div>
+            <i class="fa fa-chevron-right db-kpi-arrow"/>
+        </div>
+
+        <div class="db-kpi-tile db-kpi-hr" t-on-click="() => go('hr')">
+            <div class="db-kpi-icon"><i class="fa fa-users"/></div>
+            <div class="db-kpi-body">
+                <div class="db-kpi-value"><t t-esc="state.hr.total_employees"/></div>
+                <div class="db-kpi-label">Total Employees</div>
+                <div t-if="state.hr.pending_requests > 0"
+                     class="db-kpi-sub db-kpi-alert">
+                    <i class="fa fa-clock-o"/>
+                    <t t-esc="state.hr.pending_requests"/> pending requests
+                </div>
+                <div t-else="" class="db-kpi-sub db-kpi-ok">No pending requests</div>
+            </div>
+            <i class="fa fa-chevron-right db-kpi-arrow"/>
+        </div>
+
+    </div>
+
+    <!-- ── Module Cards ──────────────────────────────────────── -->
+    <div class="db-content">
+        <div class="db-cards-grid">
+
+            <!-- Sales -->
+            <div class="db-module-card db-card-sales">
+                <div class="db-card-header">
+                    <i class="fa fa-shopping-cart db-card-icon"/>
+                    <span class="db-card-title">Sales</span>
+                    <button class="db-card-btn" t-on-click="() => go('sales')">View All</button>
+                </div>
+                <div class="db-card-body">
+                    <div class="db-metric">
+                        <span class="db-metric-label">Confirmed Orders</span>
+                        <span class="db-metric-value"><t t-esc="state.sales.total_orders"/></span>
+                    </div>
+                    <div class="db-metric">
+                        <span class="db-metric-label">Total Revenue</span>
+                        <span class="db-metric-value"><t t-esc="fmt(state.sales.total_revenue)"/> DA</span>
+                    </div>
+                    <div t-if="state.sales.pending_invoice > 0"
+                         class="db-metric db-metric-warn">
+                        <span class="db-metric-label">Pending Invoice</span>
+                        <span class="db-metric-value"><t t-esc="state.sales.pending_invoice"/></span>
+                    </div>
+                    <div t-else="" class="db-metric db-metric-ok">
+                        <span class="db-metric-label">Invoice Status</span>
+                        <span class="db-metric-value">All invoiced</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stock -->
+            <div class="db-module-card db-card-stock">
+                <div class="db-card-header">
+                    <i class="fa fa-cubes db-card-icon"/>
+                    <span class="db-card-title">Stock &amp; Traceability</span>
+                    <button class="db-card-btn" t-on-click="() => go('stock')">View All</button>
+                </div>
+                <div class="db-card-body">
+                    <div class="db-metric">
+                        <span class="db-metric-label">Tracked Products</span>
+                        <span class="db-metric-value"><t t-esc="state.stock.total_products"/></span>
+                    </div>
+                    <div class="db-metric">
+                        <span class="db-metric-label">Stock Value</span>
+                        <span class="db-metric-value"><t t-esc="fmt(state.stock.total_value)"/> DA</span>
+                    </div>
+                    <div t-if="state.stock.active_alerts > 0"
+                         class="db-metric db-metric-danger">
+                        <span class="db-metric-label">Active Alerts</span>
+                        <span class="db-metric-value"><t t-esc="state.stock.active_alerts"/></span>
+                    </div>
+                    <div t-else="" class="db-metric db-metric-ok">
+                        <span class="db-metric-label">Stock Alerts</span>
+                        <span class="db-metric-value">None</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Manufacturing -->
+            <div class="db-module-card db-card-mfg">
+                <div class="db-card-header">
+                    <i class="fa fa-industry db-card-icon"/>
+                    <span class="db-card-title">Manufacturing</span>
+                    <button class="db-card-btn" t-on-click="() => go('manufacturing')">View All</button>
+                </div>
+                <div class="db-card-body">
+                    <div class="db-metric">
+                        <span class="db-metric-label">Orders in Progress</span>
+                        <span class="db-metric-value"><t t-esc="state.mfg.orders_in_progress"/></span>
+                    </div>
+                    <div t-att-class="'db-metric ' + (state.mfg.pending_qc > 0 ? 'db-metric-warn' : 'db-metric-ok')">
+                        <span class="db-metric-label">Pending QC</span>
+                        <span class="db-metric-value"><t t-esc="state.mfg.pending_qc"/></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HR -->
+            <div class="db-module-card db-card-hr">
+                <div class="db-card-header">
+                    <i class="fa fa-users db-card-icon"/>
+                    <span class="db-card-title">Human Resources</span>
+                    <button class="db-card-btn" t-on-click="() => go('hr')">View All</button>
+                </div>
+                <div class="db-card-body">
+                    <div class="db-metric">
+                        <span class="db-metric-label">Total Employees</span>
+                        <span class="db-metric-value"><t t-esc="state.hr.total_employees"/></span>
+                    </div>
+                    <div t-att-class="'db-metric ' + (state.hr.pending_requests > 0 ? 'db-metric-warn' : 'db-metric-ok')">
+                        <span class="db-metric-label">Pending Requests</span>
+                        <span class="db-metric-value"><t t-esc="state.hr.pending_requests"/></span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ── Strategic Objectives ──────────────────────────── -->
+        <div class="db-objectives">
+            <div class="db-section-header">
+                <div class="db-section-title">
+                    <i class="fa fa-bullseye"/>
+                    Strategic Objectives
+                </div>
+            </div>
+
+            <div t-if="state.objectives.length === 0" class="db-obj-empty">
+                No strategic objectives defined yet.
+            </div>
+            <div t-else="" class="db-obj-list">
+                <t t-foreach="state.objectives" t-as="obj" t-key="obj.id">
+                    <div class="db-obj-row">
+                        <div class="db-obj-name" t-att-title="obj.name">
+                            <t t-esc="obj.name"/>
+                        </div>
+                        <div class="db-obj-bar-wrap">
+                            <div class="db-obj-bar"
+                                 t-att-style="'width: ' + Math.min(obj.progress || 0, 100) + '%'"/>
+                        </div>
+                        <div class="db-obj-pct">
+                            <t t-esc="Math.round(obj.progress || 0)"/>%
+                        </div>
+                        <div t-att-class="'db-obj-status ' + objCls(obj.status)">
+                            <t t-esc="objLabel(obj.status)"/>
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </div>
+
+        <!-- ── Footer ────────────────────────────────────────── -->
+        <div class="db-footer">
+            <span><i class="fa fa-circle" style="color:#7C3AED;"/> Sales</span>
+            <span><i class="fa fa-circle" style="color:#0D9488;"/> Stock</span>
+            <span><i class="fa fa-circle" style="color:#D97706;"/> Manufacturing</span>
+            <span><i class="fa fa-circle" style="color:#4F46E5;"/> HR</span>
+            <span style="margin-left:12px;">ISIL Enterprise · <t t-esc="currentDate"/></span>
+        </div>
+
+    </div><!-- /db-content -->
+
+    </t><!-- /t-else -->
+</div><!-- /db-root -->
+</t>
+
+</templates>

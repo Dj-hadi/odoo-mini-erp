@@ -1,0 +1,401 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!--  1. JOURNAL ITEMS (standard account.move.line)            -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+
+    <record id="action_isil_account_move_lines" model="ir.actions.act_window">
+        <field name="name">Journal Items</field>
+        <field name="res_model">account.move.line</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('display_type', 'not in', ['line_section', 'line_note'])]</field>
+    </record>
+
+    <menuitem id="menu_isil_account_move_lines"
+              name="Journal Items"
+              parent="menu_isil_finance_root"
+              action="action_isil_account_move_lines"
+              sequence="10"/>
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!--  2. GENERAL LEDGER                                        -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+
+    <record id="view_isil_finance_gl_tree" model="ir.ui.view">
+        <field name="name">isil.finance.gl.tree</field>
+        <field name="model">isil.finance.analytics.general.ledger.line</field>
+        <field name="arch" type="xml">
+            <tree string="General Ledger"
+                  class="ifa-finance-tree"
+                  decoration-success="balance > 0"
+                  decoration-danger="balance &lt; 0"
+                  decoration-muted="balance == 0"
+                  default_order="date desc">
+                <field name="date" string="Date"/>
+                <field name="account_type" widget="account_type_badge" string="Type"/>
+                <field name="partner_name" string="Partner"/>
+                <field name="description" string="Description"/>
+                <field name="analytic_account_id" string="Department" optional="show"/>
+                <field name="debit" sum="Debit"/>
+                <field name="credit" sum="Credit"/>
+                <field name="balance" sum="Balance"/>
+                <field name="source_ref" string="Ref." optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_isil_finance_gl_form" model="ir.ui.view">
+        <field name="name">isil.finance.gl.form</field>
+        <field name="model">isil.finance.analytics.general.ledger.line</field>
+        <field name="arch" type="xml">
+            <form string="Ledger Entry">
+                <sheet>
+                    <group>
+                        <group string="Entry">
+                            <field name="date"/>
+                            <field name="account_type" widget="account_type_badge"/>
+                            <field name="partner_name"/>
+                            <field name="description"/>
+                            <field name="analytic_account_id"/>
+                        </group>
+                        <group string="Amounts">
+                            <field name="debit"/>
+                            <field name="credit"/>
+                            <field name="balance" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Source">
+                        <field name="source_model" readonly="1"/>
+                        <field name="source_ref" readonly="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_isil_finance_gl" model="ir.actions.act_window">
+        <field name="name">General Ledger</field>
+        <field name="res_model">isil.finance.analytics.general.ledger.line</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_isil_finance_gl"
+              name="General Ledger"
+              parent="menu_isil_finance_root"
+              action="action_isil_finance_gl"
+              sequence="20"/>
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!--  3. ACCOUNTS RECEIVABLE                                   -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+
+    <record id="view_isil_finance_ar_tree" model="ir.ui.view">
+        <field name="name">isil.finance.ar.tree</field>
+        <field name="model">isil.finance.analytics.account.receivable</field>
+        <field name="arch" type="xml">
+            <tree string="Accounts Receivable"
+                  class="ifa-finance-tree"
+                  decoration-warning="Maturity_Date">
+                <field name="Comp_Name" string="Counterparty" decoration-bf="1"/>
+                <field name="Product_Name" string="Product / Service"/>
+                <field name="asset_id" string="Asset" optional="show"/>
+                <field name="project_sale_price" string="Sale Price" optional="show"/>
+                <field name="Dept_Date" string="Date"/>
+                <field name="Dept_Length" string="Days"/>
+                <field name="Maturity_Date" string="Due Date"/>
+                <field name="Debit_Score" string="Debit"/>
+                <field name="Credit_Score" string="Credit"/>
+                <field name="Tax_Amount" string="Tax" optional="show"/>
+                <field name="Total_With_Tax" string="Total (incl. tax)"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_isil_finance_ar_form" model="ir.ui.view">
+        <field name="name">isil.finance.ar.form</field>
+        <field name="model">isil.finance.analytics.account.receivable</field>
+        <field name="arch" type="xml">
+            <form string="Accounts Receivable">
+                <sheet>
+                    <div class="oe_title">
+                        <label class="o_form_label" for="Comp_Name">Counterparty</label>
+                        <h1><field name="Comp_Name" id="Comp_Name" placeholder="Customer / Counterparty name"/></h1>
+                    </div>
+                    <group>
+                        <group string="Product">
+                            <field name="Product_Name"/>
+                            <field name="asset_id"/>
+                            <field name="project_sale_price"/>
+                        </group>
+                        <group string="Maturity">
+                            <field name="Dept_Date" string="Invoice Date"/>
+                            <field name="Dept_Length" string="Payment Terms (days)"/>
+                            <field name="Maturity_Date" readonly="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Amounts">
+                            <field name="Debit_Score" string="Debit"/>
+                            <field name="Credit_Score" string="Credit"/>
+                        </group>
+                        <group string="Tax">
+                            <field name="Tax_Amount" readonly="1"/>
+                            <field name="Total_With_Tax" readonly="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_isil_finance_ar" model="ir.actions.act_window">
+        <field name="name">Accounts Receivable</field>
+        <field name="res_model">isil.finance.analytics.account.receivable</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_isil_finance_ar"
+              name="Receivables"
+              parent="menu_isil_finance_root"
+              action="action_isil_finance_ar"
+              sequence="30"/>
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!--  4. ACCOUNTS PAYABLE / LIABILITIES                        -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+
+    <record id="view_isil_finance_ap_tree" model="ir.ui.view">
+        <field name="name">isil.finance.ap.tree</field>
+        <field name="model">isil.finance.analytics.account.liability</field>
+        <field name="arch" type="xml">
+            <tree string="Accounts Payable"
+                  class="ifa-finance-tree"
+                  decoration-success="state == 'posted'"
+                  decoration-info="state == 'confirmed'"
+                  decoration-muted="state == 'cancelled'">
+                <field name="name" string="Reference" decoration-bf="1"/>
+                <field name="date" string="Date"/>
+                <field name="partner_id" string="Vendor"/>
+                <field name="analytic_account_id" string="Department" optional="show"/>
+                <field name="asset_id" string="Asset" optional="show"/>
+                <field name="debit" sum="Debit"/>
+                <field name="credit" sum="Credit"/>
+                <field name="balance" sum="Balance"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'posted'"
+                       decoration-info="state == 'confirmed'"
+                       decoration-warning="state == 'draft'"
+                       decoration-danger="state == 'cancelled'"/>
+                <field name="currency_id" column_invisible="True"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_isil_finance_ap_form" model="ir.ui.view">
+        <field name="name">isil.finance.ap.form</field>
+        <field name="model">isil.finance.analytics.account.liability</field>
+        <field name="arch" type="xml">
+            <form string="Accounts Payable">
+                <header>
+                    <button name="action_confirm" string="Confirm"    type="object" class="btn-primary"   invisible="state != 'draft'"/>
+                    <button name="action_post"    string="Post"       type="object" class="btn-success"   invisible="state != 'confirmed'"/>
+                    <button name="action_cancel"  string="Cancel"     type="object"                       invisible="state not in ['draft', 'confirmed']"/>
+                    <button name="action_reset_to_draft" string="Reset to Draft" type="object"            invisible="state != 'cancelled'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,posted"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label class="o_form_label" for="name">Reference</label>
+                        <h1><field name="name" id="name"/></h1>
+                    </div>
+                    <group>
+                        <group string="Payable Details">
+                            <field name="date"/>
+                            <field name="partner_id"/>
+                            <field name="analytic_account_id"/>
+                            <field name="asset_id"/>
+                            <field name="move_id"/>
+                        </group>
+                        <group string="Amounts">
+                            <field name="company_id"/>
+                            <field name="currency_id"/>
+                            <field name="debit"/>
+                            <field name="credit"/>
+                            <field name="balance" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Notes">
+                        <field name="description" nolabel="1" placeholder="Additional details…"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_isil_finance_ap" model="ir.actions.act_window">
+        <field name="name">Accounts Payable</field>
+        <field name="res_model">isil.finance.analytics.account.liability</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_isil_finance_ap"
+              name="Payables"
+              parent="menu_isil_finance_root"
+              action="action_isil_finance_ap"
+              sequence="40"/>
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!--  5. ASSET MANAGEMENT                                      -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+
+    <record id="view_isil_finance_asset_tree" model="ir.ui.view">
+        <field name="name">isil.finance.asset.tree</field>
+        <field name="model">isil.finance.analytics.asset.management</field>
+        <field name="arch" type="xml">
+            <tree string="Asset Register"
+                  class="ifa-finance-tree"
+                  decoration-warning="Is_Tangible == False">
+                <field name="Asset_Name" string="Asset" decoration-bf="1"/>
+                <field name="Asset_quantity" string="Qty"/>
+                <field name="material_type" string="Material" widget="badge" optional="show"/>
+                <field name="Is_Tangible" string="Tangible" widget="boolean_toggle"/>
+                <field name="Expiry_Date" string="Expiry" optional="show"/>
+                <field name="Debit_Score" string="Debit"/>
+                <field name="Credit_Score" string="Credit"/>
+                <field name="Tax_Amount" string="Tax" optional="show"/>
+                <field name="Total_With_Tax" string="Total (incl. tax)"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_isil_finance_asset_form" model="ir.ui.view">
+        <field name="name">isil.finance.asset.form</field>
+        <field name="model">isil.finance.analytics.asset.management</field>
+        <field name="arch" type="xml">
+            <form string="Asset">
+                <sheet>
+                    <div class="oe_title">
+                        <label class="o_form_label" for="asset_name">Asset Name</label>
+                        <h1>
+                            <field name="Asset_Name" id="asset_name" placeholder="Asset description"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Classification">
+                            <field name="Asset_quantity"/>
+                            <field name="material_type"/>
+                            <field name="Is_Tangible"/>
+                            <field name="Expiry_Date"/>
+                        </group>
+                        <group string="Valuation">
+                            <field name="Debit_Score" string="Debit (Cost)"/>
+                            <field name="Credit_Score" string="Credit (Sale Value)"/>
+                            <field name="Tax_Amount" readonly="1"/>
+                            <field name="Total_With_Tax" readonly="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_isil_finance_asset" model="ir.actions.act_window">
+        <field name="name">Asset Register</field>
+        <field name="res_model">isil.finance.analytics.asset.management</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_isil_finance_asset"
+              name="Assets"
+              parent="menu_isil_finance_root"
+              action="action_isil_finance_asset"
+              sequence="50"/>
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!--  6. WAGES / PAYROLL                                       -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+
+    <record id="view_isil_finance_wages_tree" model="ir.ui.view">
+        <field name="name">isil.finance.wages.tree</field>
+        <field name="model">isil.finance.analytics.account.wages</field>
+        <field name="arch" type="xml">
+            <tree string="Payroll"
+                  class="ifa-finance-tree"
+                  decoration-success="state == 'paid'"
+                  decoration-info="state == 'confirmed'"
+                  decoration-muted="state == 'cancelled'">
+                <field name="name" string="Reference" decoration-bf="1"/>
+                <field name="date" string="Date"/>
+                <field name="employee_name" string="Employee"/>
+                <field name="department_id" string="Department"/>
+                <field name="amount_gross" string="Gross" sum="Total Gross"/>
+                <field name="tax_amount" string="Tax (IRG)" sum="Total Tax"/>
+                <field name="amount_net" string="Net" sum="Total Net"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'paid'"
+                       decoration-info="state == 'confirmed'"
+                       decoration-warning="state == 'draft'"
+                       decoration-danger="state == 'cancelled'"/>
+                <field name="currency_id" column_invisible="True"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_isil_finance_wages_form" model="ir.ui.view">
+        <field name="name">isil.finance.wages.form</field>
+        <field name="model">isil.finance.analytics.account.wages</field>
+        <field name="arch" type="xml">
+            <form string="Wage Payment">
+                <header>
+                    <button name="action_confirm" string="Confirm"       type="object" class="btn-primary"
+                            invisible="state != 'draft'"/>
+                    <button name="action_mark_paid" string="Mark as Paid" type="object" class="btn-success"
+                            invisible="state != 'confirmed'"/>
+                    <button name="action_cancel"  string="Cancel"        type="object"
+                            invisible="state not in ['draft', 'confirmed']"/>
+                    <button name="action_reset_to_draft" string="Reset"  type="object"
+                            invisible="state not in ['cancelled', 'paid']"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,confirmed,paid"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label class="o_form_label" for="name">Reference</label>
+                        <h1><field name="name" id="name"/></h1>
+                    </div>
+                    <group>
+                        <group string="Employee">
+                            <field name="employee_name" placeholder="Full name…"/>
+                            <field name="date" string="Payment Date"/>
+                            <field name="department_id" string="Department" required="1"/>
+                        </group>
+                        <group string="Salary">
+                            <field name="company_id"/>
+                            <field name="currency_id"/>
+                            <field name="amount_gross"/>
+                            <field name="tax_amount" string="IRG Tax"/>
+                            <field name="amount_net" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Notes">
+                        <field name="description" nolabel="1" placeholder="Additional notes…"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_isil_finance_wages" model="ir.actions.act_window">
+        <field name="name">Payroll</field>
+        <field name="res_model">isil.finance.analytics.account.wages</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_isil_finance_wages"
+              name="Payroll"
+              parent="menu_isil_finance_root"
+              action="action_isil_finance_wages"
+              sequence="60"/>
+
+</odoo>

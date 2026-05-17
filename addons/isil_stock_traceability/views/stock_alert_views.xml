@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ── Alert Tree ─────────────────────────────────────────────────── -->
+    <record id="view_stock_alert_tree" model="ir.ui.view">
+        <field name="name">stock.alert.tree</field>
+        <field name="model">stock.alert</field>
+        <field name="arch" type="xml">
+            <tree string="Stock Alerts" class="st-alert-tree"
+                  decoration-danger="is_active == True"
+                  decoration-muted="is_active == False"
+                  default_order="alert_date desc">
+                <field name="product_id" string="Product"/>
+                <field name="current_qty" string="Current Qty"/>
+                <field name="reorder_threshold" string="Threshold"/>
+                <field name="qty_gap" string="Gap to Order" optional="show"/>
+                <field name="alert_date" string="Triggered"/>
+                <field name="is_active" string="Active"/>
+                <field name="resolved_by" string="Resolved By" optional="show"/>
+                <button name="action_mark_resolved" type="object"
+                        string="Resolve" icon="fa-check"
+                        class="st-btn-resolve"
+                        invisible="not is_active"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ── Alert Form ─────────────────────────────────────────────────── -->
+    <record id="view_stock_alert_form" model="ir.ui.view">
+        <field name="name">stock.alert.form</field>
+        <field name="model">stock.alert</field>
+        <field name="arch" type="xml">
+            <form string="Stock Alert" class="st-alert-form">
+                <header>
+                    <button name="action_go_back" type="object" string="Cancel"
+                            class="btn-secondary" save="false"/>
+                </header>
+                <sheet>
+
+                    <!-- Red header strip -->
+                    <div class="st-alert-header">
+                        <i class="fa fa-exclamation-triangle" role="img" aria-label="Alert"/>
+                        <div class="st-alert-header-text">
+                            <h3>Stock Alert</h3>
+                            <p>
+                                <field name="product_id" readonly="1"/>
+                                — triggered <field name="alert_date" readonly="1"/>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Qty comparison panel -->
+                    <div class="st-alert-body">
+                        <div class="st-qty-comparison">
+                            <div class="st-qty-block">
+                                <div class="st-qty-value st-qty-current">
+                                    <field name="current_qty" readonly="1"/>
+                                </div>
+                                <div class="st-qty-label">Current Qty</div>
+                            </div>
+                            <div class="st-qty-sep">vs</div>
+                            <div class="st-qty-block">
+                                <div class="st-qty-value st-qty-threshold">
+                                    <field name="reorder_threshold" readonly="1"/>
+                                </div>
+                                <div class="st-qty-label">Threshold</div>
+                            </div>
+                        </div>
+
+                        <group>
+                            <group string="Status">
+                                <field name="is_active"/>
+                                <field name="resolved_by" readonly="1"/>
+                            </group>
+                            <group string="Notes">
+                                <field name="note" nolabel="1"/>
+                            </group>
+                        </group>
+                    </div>
+
+                </sheet>
+                <footer>
+                    <button name="action_mark_resolved" type="object"
+                            string="Mark Resolved" class="btn-primary"
+                            invisible="not is_active"/>
+                    <button string="Close" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

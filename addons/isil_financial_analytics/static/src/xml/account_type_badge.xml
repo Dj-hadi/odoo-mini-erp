@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="isil_financial_analytics.AccountTypeBadge">
+        <span t-att-class="'ifa-actype-badge ' + meta.cls">
+            <i t-att-class="'fa ' + meta.icon" role="img" t-att-aria-label="meta.label"/>
+            <t t-esc="' ' + meta.label"/>
+        </span>
+    </t>
+
+</templates>

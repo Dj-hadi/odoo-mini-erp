@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="action_isil_welcome" model="ir.actions.client">
+        <field name="name">ISIL DZ — Welcome</field>
+        <field name="tag">isil_welcome.action</field>
+        <field name="target">current</field>
+    </record>
+
+    <menuitem id="menu_isil_welcome_root"
+              name="ISIL DZ"
+              action="action_isil_welcome"
+              sequence="1"
+              web_icon="isil_welcome,static/src/img/icon.png"/>
+
+</odoo>

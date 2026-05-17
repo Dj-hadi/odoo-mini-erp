@@ -9,6 +9,7 @@ services:
       - ./data/db:/var/lib/postgresql/data
     restart: always
 
+
   odoo:
     image: odoo:17.0
     depends_on:
@@ -18,6 +19,7 @@ services:
     volumes:
       - ./addons:/mnt/extra-addons
       - ./config/odoo.conf:/etc/odoo/odoo.conf
+      - ./data/odoo:/var/lib/odoo
     environment:
       - HOST=db
       - USER=odoo

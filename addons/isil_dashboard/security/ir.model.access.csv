@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_dashboard,isil_dashboard.dashboard,model_isil_dashboard_dashboard,,1,1,1,1
+access_kpi,isil_dashboard.kpi,model_isil_dashboard_kpi,,1,1,1,1
+access_objective,isil_dashboard.objective,model_isil_dashboard_objective,,1,1,1,1

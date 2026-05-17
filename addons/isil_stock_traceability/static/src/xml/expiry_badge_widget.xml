@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="isil_stock_traceability.ExpiryBadgeWidget">
+        <span t-att-class="'st-expiry-badge ' + meta.cls">
+            <i t-att-class="'fa ' + meta.icon" role="img" t-att-aria-label="meta.label"/>
+            <t t-esc="' ' + meta.label"/>
+        </span>
+    </t>
+
+</templates>

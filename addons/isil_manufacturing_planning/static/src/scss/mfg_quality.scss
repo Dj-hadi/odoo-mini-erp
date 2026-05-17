@@ -1,0 +1,250 @@
+// ═══════════════════════════════════════════════════════════════════════
+//  QUALITY CHECK FORM, TREE & WIDGETS  (mfg_quality.scss)
+// ═══════════════════════════════════════════════════════════════════════
+
+// ── Quality Check Form ─────────────────────────────────────────────────
+
+.mfg-quality-form {
+
+    .o_form_sheet_bg { background: var(--mfg-bg, #F8FAFC) !important; }
+
+    .o_form_sheet {
+        background: var(--mfg-surface) !important;
+        border-radius: var(--mfg-radius-lg, 16px) !important;
+        box-shadow: var(--mfg-shadow-lg) !important;
+        overflow: hidden;
+        padding: 0 !important;
+    }
+
+    // ── Dark hero strip ────────────────────────────────────────────
+    .mfg-qc-hero {
+        display: flex;
+        align-items: center;
+        gap: 36px;
+        background: linear-gradient(135deg, var(--mfg-hero-start, #1E293B) 0%,
+                                            var(--mfg-hero-end, #0F172A) 100%);
+        padding: 36px 40px;
+        position: relative;
+        overflow: hidden;
+
+        // Decorative orbs
+        &::before {
+            content: "";
+            position: absolute;
+            width: 360px; height: 360px;
+            right: -120px; top: -120px;
+            border-radius: 50%;
+            background: rgba(217, 119, 6, 0.06);
+            pointer-events: none;
+        }
+        &::after {
+            content: "";
+            position: absolute;
+            width: 180px; height: 180px;
+            left: -60px; bottom: -80px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.03);
+            pointer-events: none;
+        }
+
+        .mfg-qc-gauge-block {
+            flex: 0 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .mfg-qc-meta {
+            flex: 1;
+            position: relative;
+            z-index: 1;
+
+            h3 {
+                margin: 0 0 14px;
+                font-size: 22px;
+                font-weight: 800;
+                color: #fff;
+                letter-spacing: -0.3px;
+
+                .o_field_widget, .o_field_widget span {
+                    color: #fff !important;
+                    background: transparent !important;
+                    border: none !important;
+                    font-size: 22px !important;
+                    font-weight: 800 !important;
+                }
+            }
+
+            .mfg-qc-meta-row {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                margin-bottom: 8px;
+                font-size: 13px;
+                color: rgba(255,255,255,0.75);
+
+                .fa { font-size: 12px; color: rgba(255,255,255,0.4); }
+
+                .o_field_widget, .o_field_widget span {
+                    color: rgba(255,255,255,0.9) !important;
+                    background: transparent !important;
+                    border: none !important;
+                    font-weight: 500;
+                    font-size: 13px !important;
+                }
+            }
+        }
+    }
+
+    // ── Form body ─────────────────────────────────────────────────
+    .mfg-qc-body {
+        padding: 28px 36px;
+
+        .o_group {
+            background: var(--mfg-surface-2, #F9FAFB) !important;
+            border: 1px solid var(--mfg-border, #E5E7EB) !important;
+            border-radius: var(--mfg-radius, 10px) !important;
+            padding: 18px 20px !important;
+            margin-bottom: 16px !important;
+            box-shadow: var(--mfg-shadow-xs) !important;
+        }
+
+        .o_form_label {
+            color: var(--mfg-text-muted, #6B7280) !important;
+            font-weight: 700 !important;
+            font-size: 11px !important;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .o_field_widget input,
+        .o_field_widget select {
+            border-radius: var(--mfg-radius-sm, 6px) !important;
+            border: 1px solid var(--mfg-border-dark, #D1D5DB) !important;
+            transition: border-color var(--mfg-ease), box-shadow var(--mfg-ease) !important;
+
+            &:focus {
+                border-color: var(--mfg-primary, #D97706) !important;
+                box-shadow: 0 0 0 3px var(--mfg-primary-ring, rgba(217,119,6,0.15)) !important;
+            }
+        }
+
+        textarea.o_field_widget,
+        .o_field_widget textarea {
+            border-radius: var(--mfg-radius-sm, 6px) !important;
+            border: 1px solid var(--mfg-border-dark, #D1D5DB) !important;
+            min-height: 100px;
+            transition: border-color var(--mfg-ease), box-shadow var(--mfg-ease) !important;
+
+            &:focus {
+                border-color: var(--mfg-primary, #D97706) !important;
+                box-shadow: 0 0 0 3px var(--mfg-primary-ring) !important;
+            }
+        }
+    }
+}
+
+// ── Quality Check Tree ─────────────────────────────────────────────────
+
+.o_list_view.mfg-qc-tree {
+
+    thead th {
+        background: var(--mfg-surface-2, #F9FAFB) !important;
+        border-bottom: 2px solid var(--mfg-primary-light, #FEF3C7) !important;
+        font-size: 11px !important;
+        font-weight: 700 !important;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--mfg-text-muted, #6B7280) !important;
+        padding: 10px 14px !important;
+    }
+
+    tbody tr.o_data_row {
+        td {
+            padding: 10px 14px !important;
+            vertical-align: middle !important;
+            border-bottom: 1px solid var(--mfg-border, #E5E7EB) !important;
+        }
+        &:hover td { background: var(--mfg-primary-light, #FEF3C7) !important; }
+    }
+
+    tbody tr.o_data_row.o_success td { background: #F0FDF4 !important; }
+    tbody tr.o_data_row.o_danger  td { background: var(--mfg-failed-bg, #FEE2E2) !important; }
+
+    td[data-name="quality_score"] {
+        font-weight: 700 !important;
+        font-size: 14px !important;
+    }
+    td[data-name="defects_found"] { color: var(--mfg-failed, #DC2626) !important; }
+    td[data-name="name"] {
+        font-family: monospace;
+        font-size: 12px !important;
+        color: var(--mfg-text-muted, #6B7280) !important;
+    }
+}
+
+// ── Quality Score Gauge Widget ─────────────────────────────────────────
+
+.qc-score-gauge {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+
+    .qc-gauge-svg {
+        width: 100px;
+        height: 100px;
+        filter: drop-shadow(0 2px 8px rgba(0,0,0,0.15));
+    }
+
+    .qc-gauge-arc {
+        @keyframes qc-gauge-fill {
+            from { stroke-dashoffset: 226.195; }
+            to   { stroke-dashoffset: var(--arc-target, 0); }
+        }
+        animation: qc-gauge-fill 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        animation-delay: 0.2s;
+    }
+
+    .qc-gauge-label {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: rgba(255,255,255,0.8);
+    }
+
+    &.qc-gauge-pass .qc-gauge-label { color: #6EE7B7; }
+    &.qc-gauge-risk .qc-gauge-label { color: #FDE68A; }
+    &.qc-gauge-fail .qc-gauge-label { color: #FCA5A5; }
+}
+
+// Smaller gauge in tree view
+.o_list_view .qc-score-gauge {
+    gap: 2px;
+    .qc-gauge-svg   { width: 44px; height: 44px; filter: none; }
+    .qc-gauge-label { font-size: 9px; color: var(--mfg-text-muted, #6B7280) !important; }
+}
+
+// ── QC Status Badge Widget ─────────────────────────────────────────────
+
+.qc-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    border-radius: var(--mfg-radius-full, 9999px);
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+
+    .fa { font-size: 11px; }
+
+    &.qc-status-passed {
+        background: var(--mfg-passed-bg, #D1FAE5);
+        color: var(--mfg-passed-text, #065F46);
+    }
+    &.qc-status-failed {
+        background: var(--mfg-failed-bg, #FEE2E2);
+        color: var(--mfg-failed-text, #991B1B);
+    }
+}

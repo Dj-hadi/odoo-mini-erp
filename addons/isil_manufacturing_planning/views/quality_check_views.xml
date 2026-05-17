@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+    <!-- ── Quality Check Form ──────────────────────────────────────── -->
+    <record id="view_quality_check_form" model="ir.ui.view">
+        <field name="name">quality.check.form</field>
+        <field name="model">quality.check</field>
+        <field name="arch" type="xml">
+            <form string="Quality Check" class="mfg-quality-form">
+                <sheet>
+
+                    <!-- Dark hero: gauge + metadata -->
+                    <div class="mfg-qc-hero">
+                        <div class="mfg-qc-gauge-block">
+                            <field name="quality_score" widget="quality_score_gauge" readonly="1"/>
+                        </div>
+                        <div class="mfg-qc-meta">
+                            <h3><field name="name" readonly="1"/></h3>
+                            <div class="mfg-qc-meta-row">
+                                <i class="fa fa-cogs" role="img" aria-label="Product"/>
+                                <field name="product_id" readonly="1"/>
+                            </div>
+                            <div class="mfg-qc-meta-row">
+                                <i class="fa fa-calendar" role="img" aria-label="Date"/>
+                                <field name="check_date" readonly="1"/>
+                            </div>
+                            <div class="mfg-qc-meta-row">
+                                <field name="passed" widget="qc_status_badge" readonly="1"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Editable body -->
+                    <div class="mfg-qc-body">
+                        <group>
+                            <group string="Manufacturing Order">
+                                <field name="production_id" required="1"
+                                       options="{'no_create': True}"/>
+                                <field name="responsible_id"
+                                       options="{'no_create': True}"/>
+                            </group>
+                            <group string="Quality Metrics">
+                                <field name="quality_score" string="Score (0 – 100)" required="1"/>
+                                <field name="defects_found"/>
+                            </group>
+                        </group>
+                        <group string="Notes &amp; Observations">
+                            <field name="notes" nolabel="1"
+                                   placeholder="Describe quality observations, defects, and recommendations…"/>
+                        </group>
+                    </div>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ── Quality Check Tree ─────────────────────────────────────── -->
+    <record id="view_quality_check_tree" model="ir.ui.view">
+        <field name="name">quality.check.tree</field>
+        <field name="model">quality.check</field>
+        <field name="arch" type="xml">
+            <tree string="Quality Checks" class="mfg-qc-tree"
+                  decoration-success="passed == True"
+                  decoration-danger="passed == False"
+                  default_order="check_date desc">
+                <field name="name" string="Reference"/>
+                <field name="production_id" string="Order"/>
+                <field name="product_id" string="Product"/>
+                <field name="check_date" string="Checked"/>
+                <field name="quality_score" widget="quality_score_gauge" string="Score"/>
+                <field name="defects_found" string="Defects" optional="show"/>
+                <field name="passed" widget="qc_status_badge" string="Status"/>
+                <field name="responsible_id" string="Inspector" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ── Quality Check Action ───────────────────────────────────── -->
+    <record id="action_quality_check" model="ir.actions.act_window">
+        <field name="name">Quality Checks</field>
+        <field name="res_model">quality.check</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_quality_check_tree"/>
+    </record>
+
+    <!-- ── Menu ──────────────────────────────────────────────────── -->
+    <menuitem id="menu_quality_check"
+              name="Quality Checks"
+              parent="mrp.menu_mrp_root"
+              action="action_quality_check"
+              sequence="10"/>
+
+    </data>
+</odoo>

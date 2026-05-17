@@ -1,0 +1,9 @@
+/* style.css */
+
+.o_list_view .o_data_row.decoration-danger {
+    background-color: #fff2f2 !important;
+}
+
+.o_form_button {
+    margin-right: 8px;
+}

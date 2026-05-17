@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_stock_lot_isil,access_stock_lot_isil,model_stock_lot_isil,base.group_user,1,1,1,1
+access_stock_alert_user,access_stock_alert_user,model_stock_alert,base.group_user,1,1,1,1
+access_stock_isil_manager,access_stock_isil_manager,model_stock_alert,group_stock_isil_manager,1,1,1,1

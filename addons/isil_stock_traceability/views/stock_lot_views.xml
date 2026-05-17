@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ── Lot Tree ──────────────────────────────────────────────────── -->
+    <record id="view_stock_lot_tree" model="ir.ui.view">
+        <field name="name">stock.lot.isil.tree</field>
+        <field name="model">stock.lot.isil</field>
+        <field name="arch" type="xml">
+            <tree string="Stock Lots" class="st-lot-tree"
+                  decoration-danger="expiry_status == 'expired'"
+                  decoration-warning="expiry_status == 'expiring_soon'"
+                  default_order="expiry_date asc">
+                <field name="name" string="Lot #"/>
+                <field name="product_id" string="Product"/>
+                <field name="lot_type" widget="lot_type_badge" string="Type"/>
+                <field name="quantity" string="Qty"/>
+                <field name="location_id" string="Location" optional="show"/>
+                <field name="production_date" string="Produced" optional="show"/>
+                <field name="expiry_date" string="Expiry Date" optional="show"/>
+                <field name="expiry_status" widget="expiry_badge" string="Status"/>
+                <field name="active" string="Active" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ── Lot Form ──────────────────────────────────────────────────── -->
+    <record id="view_stock_lot_form" model="ir.ui.view">
+        <field name="name">stock.lot.isil.form</field>
+        <field name="model">stock.lot.isil</field>
+        <field name="arch" type="xml">
+            <form string="Stock Lot" class="st-lot-form">
+                <header>
+                    <button name="action_go_back" type="object" string="Cancel"
+                            class="btn-secondary" save="false"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="Lot Name…"/></h1>
+                    </div>
+                    <group>
+                        <group string="Product &amp; Type">
+                            <field name="product_id" options="{'no_create': True}"/>
+                            <field name="lot_type" widget="lot_type_badge"/>
+                            <field name="active"/>
+                        </group>
+                        <group string="Stock &amp; Location">
+                            <field name="quantity"/>
+                            <field name="location_id"/>
+                        </group>
+                    </group>
+                    <group string="Dates">
+                        <group>
+                            <field name="production_date"/>
+                            <field name="expiry_date"/>
+                        </group>
+                        <group>
+                            <field name="expiry_status" widget="expiry_badge"
+                                   readonly="1" string="Expiry Status"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

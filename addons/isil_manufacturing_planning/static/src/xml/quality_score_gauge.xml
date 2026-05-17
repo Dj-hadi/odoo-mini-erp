@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="isil_manufacturing_planning.QualityScoreGauge">
+        <div t-att-class="'qc-score-gauge ' + gaugeClass">
+            <svg viewBox="0 0 80 80" class="qc-gauge-svg">
+                <circle cx="40" cy="40" r="36" fill="none"
+                        stroke="#E2E8F0" stroke-width="7"/>
+                <circle cx="40" cy="40" r="36" fill="none"
+                        t-att-stroke="strokeColor" stroke-width="7"
+                        stroke-linecap="round"
+                        class="qc-gauge-arc" t-att-style="arcStyle"/>
+                <text x="40" y="37" text-anchor="middle" dominant-baseline="central"
+                      font-size="17" font-weight="800" t-att-fill="strokeColor">
+                    <t t-esc="score"/>
+                </text>
+                <text x="40" y="53" text-anchor="middle"
+                      font-size="8" fill="#94A3B8">/100</text>
+            </svg>
+            <div class="qc-gauge-label"><t t-esc="statusLabel"/></div>
+        </div>
+    </t>
+
+</templates>

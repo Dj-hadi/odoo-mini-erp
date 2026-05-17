@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+    <!-- ── BOM Form: Technical Validation section ─────────────────── -->
+    <record id="view_mrp_bom_form_inherit_technical" model="ir.ui.view">
+        <field name="name">mrp.bom.form.inherit.technical</field>
+        <field name="model">mrp.bom</field>
+        <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='product_tmpl_id']" position="after">
+
+                <!-- Warning banner shown when validation is required -->
+                <div class="mfg-tech-validation-banner"
+                     invisible="not technical_validation_required">
+                    <i class="fa fa-exclamation-triangle"
+                       role="img" aria-label="Validation Required"/>
+                    <span>Technical validation required before production</span>
+                </div>
+
+                <!-- Technical Validation group -->
+                <group string="Technical Validation" class="mfg-bom-tech-group">
+                    <field name="technical_validation_required"/>
+                    <field name="is_complex_product"
+                           readonly="technical_validation_required"/>
+                    <field name="expert_email"
+                           placeholder="expert@company.com"
+                           invisible="not technical_validation_required"/>
+                </group>
+
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- ── BOM Tree: class + bom_type badge + validation column ─────── -->
+    <record id="view_mrp_bom_tree_inherit_technical" model="ir.ui.view">
+        <field name="name">mrp.bom.tree.inherit.technical</field>
+        <field name="model">mrp.bom</field>
+        <field name="inherit_id" ref="mrp.mrp_bom_tree_view"/>
+        <field name="arch" type="xml">
+
+            <!-- Add CSS class + decoration to the tree element -->
+            <xpath expr="//tree" position="attributes">
+                <attribute name="class">mfg-bom-tree</attribute>
+                <attribute name="decoration-warning">technical_validation_required</attribute>
+            </xpath>
+
+            <!-- Replace plain type field with styled badge -->
+            <xpath expr="//field[@name='type']" position="replace">
+                <field name="type" widget="bom_type_badge" string="Type"/>
+            </xpath>
+
+            <!-- Add validation + complexity columns -->
+            <xpath expr="//tree" position="inside">
+                <field name="technical_validation_required" string="Tech Validation"
+                       optional="show"/>
+                <field name="is_complex_product" string="Complex" optional="show"/>
+            </xpath>
+
+        </field>
+    </record>
+
+    </data>
+</odoo>

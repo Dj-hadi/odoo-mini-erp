@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="isil_stock_traceability.LotTypeBadgeWidget">
+        <t t-if="props.readonly">
+            <span t-if="value" t-att-class="'st-lot-type-badge ' + meta.cls">
+                <i t-att-class="'fa ' + meta.icon" role="img" t-att-aria-label="meta.label"/>
+                <t t-esc="' ' + meta.label"/>
+            </span>
+            <span t-else="" class="st-lot-type-badge">—</span>
+        </t>
+        <t t-else="">
+            <select class="o_input st-lot-type-select" t-on-change="onChange">
+                <t t-foreach="selectionValues" t-as="opt" t-key="opt[0]">
+                    <option t-att-value="opt[0]" t-att-selected="opt[0] === value">
+                        <t t-esc="opt[1]"/>
+                    </option>
+                </t>
+            </select>
+        </t>
+    </t>
+
+</templates>

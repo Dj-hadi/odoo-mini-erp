@@ -1,0 +1,51 @@
+// ═══════════════════════════════════════════════════════════════════════
+//  STOCK MODULE DESIGN TOKENS  (stock_variables.scss)
+//  Load this file FIRST in the asset bundle.
+// ═══════════════════════════════════════════════════════════════════════
+
+:root {
+    /* ── Primary (teal) ── */
+    --st-primary:       #0D9488;
+    --st-primary-dark:  #0F766E;
+    --st-primary-light: #CCFBF1;
+    --st-primary-ring:  rgba(13, 148, 136, 0.15);
+
+    /* ── Expiry status ── */
+    --st-fresh:         #059669;
+    --st-fresh-bg:      #D1FAE5;
+    --st-fresh-text:    #065F46;
+
+    --st-expiring:      #D97706;
+    --st-expiring-bg:   #FEF3C7;
+    --st-expiring-text: #92400E;
+
+    --st-expired:       #DC2626;
+    --st-expired-bg:    #FEE2E2;
+    --st-expired-text:  #991B1B;
+
+    /* ── Lot types ── */
+    --st-raw:           #0284C7;
+    --st-raw-bg:        #E0F2FE;
+    --st-finished:      #7C3AED;
+    --st-finished-bg:   #EDE9FE;
+
+    /* ── Surfaces ── */
+    --st-bg:            #F8FAFC;
+    --st-surface:       #FFFFFF;
+    --st-surface-2:     #F1F5F9;
+    --st-border:        #E2E8F0;
+    --st-border-dark:   #CBD5E1;
+    --st-text:          #0F172A;
+    --st-text-muted:    #64748B;
+
+    /* ── Shadows ── */
+    --st-shadow-xs: 0 1px 2px rgba(0,0,0,0.05);
+    --st-shadow-md: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.04);
+
+    /* ── Shape & motion ── */
+    --st-radius-lg:   14px;
+    --st-radius:      10px;
+    --st-radius-sm:   6px;
+    --st-radius-full: 9999px;
+    --st-ease:        0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}

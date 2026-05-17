@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <menuitem id="menu_isil_finance_root"
+              name="Financial Analytics"
+              sequence="5"/>
+
+    <!-- ── Analytic Accounts Tree ───────────────────────────────── -->
+    <record id="view_isil_finance_analytic_account_tree" model="ir.ui.view">
+        <field name="name">isil_finance_analytic_account.tree</field>
+        <field name="model">isil_finance_analytics.analytic_account</field>
+        <field name="arch" type="xml">
+            <tree string="Departments / Cost Centers"
+                  class="ifa-finance-tree"
+                  decoration-muted="not active">
+                <field name="code" string="Code" optional="show"/>
+                <field name="name" string="Department"/>
+                <field name="description" string="Notes" optional="show"/>
+                <field name="active" string="Active" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ── Analytic Accounts Form ───────────────────────────────── -->
+    <record id="view_isil_finance_analytic_account_form" model="ir.ui.view">
+        <field name="name">isil_finance_analytic_account.form</field>
+        <field name="model">isil_finance_analytics.analytic_account</field>
+        <field name="arch" type="xml">
+            <form string="Department / Cost Center" class="ifa-account-form">
+                <sheet>
+                    <div class="oe_title">
+                        <label class="o_form_label" for="name">Department Name</label>
+                        <h1><field name="name" id="name" placeholder="e.g. Production, Sales…"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code" placeholder="e.g. DEP-001"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="description" placeholder="Purpose of this cost center…"
+                                   nolabel="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ── Taxation Settings Form ───────────────────────────────── -->
+    <record id="view_isil_finance_taxation_form" model="ir.ui.view">
+        <field name="name">isil_finance_taxation.form</field>
+        <field name="model">isil.finance.taxation</field>
+        <field name="arch" type="xml">
+            <form string="Tax Configuration">
+                <sheet>
+                    <div class="ifa-tax-config">
+                        <div class="ifa-tax-header">
+                            <i class="fa fa-percent" role="img"/>
+                            Algerian Tax Rates
+                        </div>
+                        <group>
+                            <group string="Sales &amp; Assets">
+                                <field name="vat_rate" string="VAT Rate (%)"/>
+                                <field name="cit_rate" string="CIT Rate — Assets &amp; Liabilities (%)"/>
+                            </group>
+                            <group string="Payroll">
+                                <field name="irg_rate" string="IRG Rate — Salaries (%)"/>
+                            </group>
+                        </group>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_isil_finance_taxation_tree" model="ir.ui.view">
+        <field name="name">isil_finance_taxation.tree</field>
+        <field name="model">isil.finance.taxation</field>
+        <field name="arch" type="xml">
+            <tree string="Tax Configuration" class="ifa-finance-tree">
+                <field name="vat_rate" string="VAT (%)"/>
+                <field name="cit_rate" string="CIT (%)"/>
+                <field name="irg_rate" string="IRG (%)"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ── Actions ──────────────────────────────────────────────── -->
+    <record id="action_isil_finance_analytic_account" model="ir.actions.act_window">
+        <field name="name">Departments</field>
+        <field name="res_model">isil_finance_analytics.analytic_account</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_isil_finance_taxation" model="ir.actions.act_window">
+        <field name="name">Tax Configuration</field>
+        <field name="res_model">isil.finance.taxation</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- ── Menus ─────────────────────────────────────────────────── -->
+    <menuitem id="menu_isil_finance_analytic_account"
+              name="Departments"
+              parent="menu_isil_finance_root"
+              action="action_isil_finance_analytic_account"
+              sequence="10"/>
+
+    <menuitem id="menu_isil_finance_taxation"
+              name="Tax Settings"
+              parent="menu_isil_finance_root"
+              action="action_isil_finance_taxation"
+              sequence="90"/>
+
+</odoo>

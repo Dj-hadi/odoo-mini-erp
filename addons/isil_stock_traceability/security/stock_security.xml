@@ -1,0 +1,6 @@
+<odoo>
+    <record id="group_stock_isil_manager" model="res.groups">
+        <field name="name">Stock ISIL Manager</field>
+        <field name="category_id" ref="base.module_category_inventory"/>
+    </record>
+</odoo>

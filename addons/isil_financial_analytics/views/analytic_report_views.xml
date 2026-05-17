@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- ── Report Tree ──────────────────────────────────────────── -->
+    <record id="view_isil_analytic_report_tree" model="ir.ui.view">
+        <field name="name">isil.analytic.report.tree</field>
+        <field name="model">isil_finance_analytics.analytic_report</field>
+        <field name="arch" type="xml">
+            <tree string="Analytic Reports"
+                  class="ifa-finance-tree"
+                  decoration-success="total_balance > 0"
+                  decoration-danger="total_balance &lt; 0">
+                <field name="name" string="Report" decoration-bf="1"/>
+                <field name="generated_for" string="Department"/>
+                <field name="start_date" string="From"/>
+                <field name="end_date" string="To"/>
+                <field name="selling_price" string="Selling Price" optional="show"/>
+                <field name="total_raw_materials" string="Raw Materials" optional="show"/>
+                <field name="total_debit" string="Debit" sum="Total"/>
+                <field name="total_credit" string="Credit" sum="Total"/>
+                <field name="total_balance" string="Balance" sum="Net"/>
+                <field name="currency_id" column_invisible="True"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ── Report Form ──────────────────────────────────────────── -->
+    <record id="view_isil_analytic_report_form" model="ir.ui.view">
+        <field name="name">isil.analytic.report.form</field>
+        <field name="model">isil_finance_analytics.analytic_report</field>
+        <field name="arch" type="xml">
+            <form string="Analytic Report">
+                <sheet>
+
+                    <div class="oe_title">
+                        <label class="o_form_label" for="name">Report Name</label>
+                        <h1>
+                            <field name="name" id="name" placeholder="e.g. Q1 Production Cost"/>
+                        </h1>
+                        <div style="font-size:13px;color:#6B7280;margin-top:2px;">
+                            <field name="generated_for" readonly="1" nolabel="1"
+                                   placeholder="Department auto-filled"/>
+                            <span> · </span>
+                            <field name="created_on" readonly="1" nolabel="1"/>
+                        </div>
+                    </div>
+
+                    <!-- ── Financial Summary ─────────────────────── -->
+                    <div class="ifa-report-summary">
+
+                        <div class="ifa-summary-card ifa-card-debit">
+                            <i class="fa fa-arrow-up ifa-summary-icon" role="img"/>
+                            <div class="ifa-summary-label">Total Debit</div>
+                            <div class="ifa-summary-value">
+                                <field name="total_debit" readonly="1" nolabel="1"/>
+                            </div>
+                        </div>
+
+                        <div class="ifa-summary-card ifa-card-credit">
+                            <i class="fa fa-arrow-down ifa-summary-icon" role="img"/>
+                            <div class="ifa-summary-label">Total Credit</div>
+                            <div class="ifa-summary-value">
+                                <field name="total_credit" readonly="1" nolabel="1"/>
+                            </div>
+                        </div>
+
+                        <div class="ifa-summary-card ifa-card-balance-pos">
+                            <i class="fa fa-balance-scale ifa-summary-icon" role="img"/>
+                            <div class="ifa-summary-label">Net Balance</div>
+                            <div class="ifa-summary-value">
+                                <field name="total_balance" readonly="1" nolabel="1"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- ── Settings ──────────────────────────────── -->
+                    <group>
+                        <group string="Period &amp; Scope">
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                            <field name="analytic_account_id" string="Department Filter"/>
+                            <field name="company_id"/>
+                            <field name="currency_id"/>
+                        </group>
+                        <group string="Cost Analysis">
+                            <field name="selling_price"/>
+                            <field name="total_raw_materials"/>
+                        </group>
+                    </group>
+
+                    <!-- ── Journal Lines ─────────────────────────── -->
+                    <notebook>
+                        <page string="Journal Lines" name="lines">
+                            <field name="line_ids" class="ifa-lines-table">
+                                <tree editable="bottom"
+                                      decoration-success="debit > 0 and credit == 0"
+                                      decoration-danger="credit > 0 and debit == 0">
+                                    <field name="date"/>
+                                    <field name="ref" placeholder="Reference…"/>
+                                    <field name="analytic_account_id" string="Department"/>
+                                    <field name="debit" sum="Total Debit"/>
+                                    <field name="credit" sum="Total Credit"/>
+                                    <field name="currency_id" column_invisible="True"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ── Action + Menu ────────────────────────────────────────── -->
+    <record id="action_isil_analytic_report" model="ir.actions.act_window">
+        <field name="name">Analytic Reports</field>
+        <field name="res_model">isil_finance_analytics.analytic_report</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_isil_analytic_reports"
+              name="Analytic Reports"
+              parent="menu_isil_finance_root"
+              action="action_isil_analytic_report"
+              sequence="80"/>
+
+</odoo>

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+
+<t t-name="isil_welcome.Welcome">
+    <div t-att-class="{'isl-overlay': true, 'isl-exiting': state.exiting}">
+
+        <!-- ╔══════════════════════════════════════╗ -->
+        <!-- ║  SLIDE 1 — Brand Reveal              ║ -->
+        <!-- ╚══════════════════════════════════════╝ -->
+        <div t-att-class="{'isl-slide isl-s1': true, 'isl-active': state.current === 0}">
+            <div class="isl-particles" id="isl-p1"/>
+            <div class="isl-center">
+                <div class="isl-s1-eyebrow">✦  Algeria's Enterprise Platform  ✦</div>
+                <div class="isl-s1-name">ISIL</div>
+                <div class="isl-s1-suffix">D Z</div>
+                <div class="isl-s1-sub">Integrated Enterprise Management</div>
+                <div class="isl-s1-pills">
+                    <span class="isl-pill" style="color:#6ee7b7;border-color:rgba(110,231,183,.3);background:rgba(110,231,183,.07)">HR</span>
+                    <span class="isl-pill" style="color:#5eead4;border-color:rgba(94,234,212,.3);background:rgba(94,234,212,.07)">Stock</span>
+                    <span class="isl-pill" style="color:#fcd34d;border-color:rgba(252,211,77,.3);background:rgba(252,211,77,.07)">Manufacturing</span>
+                    <span class="isl-pill" style="color:#c4b5fd;border-color:rgba(196,181,253,.3);background:rgba(196,181,253,.07)">Sales</span>
+                    <span class="isl-pill" style="color:#6ee7b7;border-color:rgba(110,231,183,.3);background:rgba(110,231,183,.07)">Finance</span>
+                    <span class="isl-pill" style="color:#94a3b8;border-color:rgba(148,163,184,.3);background:rgba(148,163,184,.07)">Dashboard</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ╔══════════════════════════════════════╗ -->
+        <!-- ║  SLIDE 2 — Modules (clickable)       ║ -->
+        <!-- ╚══════════════════════════════════════╝ -->
+        <div t-att-class="{'isl-slide isl-s2': true, 'isl-active': state.current === 1}">
+            <div class="isl-particles" id="isl-p2"/>
+            <div class="isl-center">
+                <div class="isl-s2-title">6 Core Modules — click any to open</div>
+                <div class="isl-grid">
+
+                    <div class="isl-mcard" style="--acc:#6366f1"
+                         t-on-click="() => goToModule('hr')">
+                        <div class="isl-mcard-icon">👥</div>
+                        <div class="isl-mcard-name">HR Advanced</div>
+                        <div class="isl-mcard-tag">Employees · Payroll</div>
+                        <div class="isl-mcard-hint">Open →</div>
+                    </div>
+
+                    <div class="isl-mcard" style="--acc:#0d9488"
+                         t-on-click="() => goToModule('stock')">
+                        <div class="isl-mcard-icon">📦</div>
+                        <div class="isl-mcard-name">Stock</div>
+                        <div class="isl-mcard-tag">Lots · Traceability</div>
+                        <div class="isl-mcard-hint">Open →</div>
+                    </div>
+
+                    <div class="isl-mcard" style="--acc:#d97706"
+                         t-on-click="() => goToModule('manufacturing')">
+                        <div class="isl-mcard-icon">⚙️</div>
+                        <div class="isl-mcard-name">Manufacturing</div>
+                        <div class="isl-mcard-tag">BOM · Planning</div>
+                        <div class="isl-mcard-hint">Open →</div>
+                    </div>
+
+                    <div class="isl-mcard" style="--acc:#7c3aed"
+                         t-on-click="() => goToModule('sales')">
+                        <div class="isl-mcard-icon">🛒</div>
+                        <div class="isl-mcard-name">Sales &amp; CRM</div>
+                        <div class="isl-mcard-tag">Orders · Customers</div>
+                        <div class="isl-mcard-hint">Open →</div>
+                    </div>
+
+                    <div class="isl-mcard" style="--acc:#059669"
+                         t-on-click="() => goToModule('finance')">
+                        <div class="isl-mcard-icon">📊</div>
+                        <div class="isl-mcard-name">Financial Analytics</div>
+                        <div class="isl-mcard-tag">GL · AR · AP · Assets</div>
+                        <div class="isl-mcard-hint">Open →</div>
+                    </div>
+
+                    <div class="isl-mcard" style="--acc:#64748b"
+                         t-on-click="() => goToModule('dashboard')">
+                        <div class="isl-mcard-icon">🎯</div>
+                        <div class="isl-mcard-name">Dashboard</div>
+                        <div class="isl-mcard-tag">KPIs · Objectives</div>
+                        <div class="isl-mcard-hint">Open →</div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- ╔══════════════════════════════════════╗ -->
+        <!-- ║  SLIDE 3 — Ready                     ║ -->
+        <!-- ╚══════════════════════════════════════╝ -->
+        <div t-att-class="{'isl-slide isl-s3': true, 'isl-active': state.current === 2}">
+            <div class="isl-particles" id="isl-p3"/>
+            <div class="isl-center">
+                <div class="isl-s3-icon">🚀</div>
+                <div class="isl-s3-title">Welcome Aboard</div>
+                <div class="isl-s3-company">ISIL DZ  ·  dzcompany</div>
+                <div class="isl-s3-divider"/>
+                <div class="isl-s3-chips">
+                    <span class="isl-chip isl-chip-link" t-on-click="() => goToModule('hr')">
+                        <span class="isl-chip-dot" style="background:#6366f1"/>HR Advanced
+                    </span>
+                    <span class="isl-chip isl-chip-link" t-on-click="() => goToModule('stock')">
+                        <span class="isl-chip-dot" style="background:#0d9488"/>Stock
+                    </span>
+                    <span class="isl-chip isl-chip-link" t-on-click="() => goToModule('manufacturing')">
+                        <span class="isl-chip-dot" style="background:#d97706"/>Manufacturing
+                    </span>
+                    <span class="isl-chip isl-chip-link" t-on-click="() => goToModule('sales')">
+                        <span class="isl-chip-dot" style="background:#7c3aed"/>Sales
+                    </span>
+                    <span class="isl-chip isl-chip-link" t-on-click="() => goToModule('finance')">
+                        <span class="isl-chip-dot" style="background:#059669"/>Finance
+                    </span>
+                    <span class="isl-chip isl-chip-link" t-on-click="() => goToModule('dashboard')">
+                        <span class="isl-chip-dot" style="background:#64748b"/>Dashboard
+                    </span>
+                </div>
+                <button class="isl-enter-btn" t-on-click="enter">
+                    Go to Dashboard
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- ── Chrome ─────────────────────────────── -->
+        <t t-if="!isLast">
+            <button class="isl-skip" t-on-click="skipIntro">Skip intro</button>
+        </t>
+
+        <div class="isl-dots">
+            <div t-att-class="{'isl-dot': true, 'isl-dot-on': state.current === 0}" t-on-click="() => goToSlide(0)"/>
+            <div t-att-class="{'isl-dot': true, 'isl-dot-on': state.current === 1}" t-on-click="() => goToSlide(1)"/>
+            <div t-att-class="{'isl-dot': true, 'isl-dot-on': state.current === 2}" t-on-click="() => goToSlide(2)"/>
+        </div>
+
+        <div class="isl-prog"><div id="isl-prog-fill"/></div>
+
+    </div>
+</t>
+
+</templates>

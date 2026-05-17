@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ═══════════════════════════════════════════════════ -->
+        <!--  CLIENT ACTION — full OWL dashboard                -->
+        <!-- ═══════════════════════════════════════════════════ -->
+
+        <record id="action_dashboard_client" model="ir.actions.client">
+            <field name="name">Business Dashboard</field>
+            <field name="tag">isil_dashboard.client_action</field>
+        </record>
+
+        <!-- ═══════════════════════════════════════════════════ -->
+        <!--  KPI VIEWS                                         -->
+        <!-- ═══════════════════════════════════════════════════ -->
+
+        <record id="view_kpi_tree" model="ir.ui.view">
+            <field name="name">isil_dashboard.kpi.tree</field>
+            <field name="model">isil_dashboard.kpi</field>
+            <field name="arch" type="xml">
+                <tree string="KPIs"
+                      decoration-success="value >= target and target > 0"
+                      decoration-warning="value &lt; target and target > 0">
+                    <field name="name"/>
+                    <field name="kpi_type" widget="badge"/>
+                    <field name="value"/>
+                    <field name="target"/>
+                    <field name="unit"/>
+                    <field name="is_active"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_kpi_form" model="ir.ui.view">
+            <field name="name">isil_dashboard.kpi.form</field>
+            <field name="model">isil_dashboard.kpi</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1><field name="name" placeholder="KPI Name"/></h1>
+                        </div>
+                        <group>
+                            <group string="Values">
+                                <field name="value"/>
+                                <field name="target"/>
+                                <field name="unit"/>
+                            </group>
+                            <group string="Settings">
+                                <field name="kpi_type"/>
+                                <field name="color"/>
+                                <field name="is_active"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- ═══════════════════════════════════════════════════ -->
+        <!--  OBJECTIVE VIEWS                                   -->
+        <!-- ═══════════════════════════════════════════════════ -->
+
+        <record id="view_objective_tree" model="ir.ui.view">
+            <field name="name">isil_dashboard.objective.tree</field>
+            <field name="model">isil_dashboard.objective</field>
+            <field name="arch" type="xml">
+                <tree string="Strategic Objectives"
+                      decoration-success="status == 'completed'"
+                      decoration-warning="status == 'at_risk'"
+                      decoration-danger="status == 'behind'">
+                    <field name="name"/>
+                    <field name="progress" widget="progressbar"/>
+                    <field name="status" widget="badge"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_objective_form" model="ir.ui.view">
+            <field name="name">isil_dashboard.objective.form</field>
+            <field name="model">isil_dashboard.objective</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1><field name="name" placeholder="Objective Name"/></h1>
+                        </div>
+                        <group>
+                            <group string="Timeline">
+                                <field name="start_date"/>
+                                <field name="end_date"/>
+                                <field name="status"/>
+                            </group>
+                            <group string="Progress">
+                                <field name="target_value"/>
+                                <field name="current_value"/>
+                                <field name="progress"/>
+                            </group>
+                        </group>
+                        <group string="Description">
+                            <field name="description" nolabel="1"/>
+                        </group>
+                        <group string="Related KPIs">
+                            <field name="kpi_ids" widget="many2many_tags" nolabel="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- ═══════════════════════════════════════════════════ -->
+        <!--  ACTIONS                                           -->
+        <!-- ═══════════════════════════════════════════════════ -->
+
+        <record id="action_kpi" model="ir.actions.act_window">
+            <field name="name">KPI Management</field>
+            <field name="res_model">isil_dashboard.kpi</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_kpi_tree"/>
+        </record>
+
+        <record id="action_objective" model="ir.actions.act_window">
+            <field name="name">Strategic Objectives</field>
+            <field name="res_model">isil_dashboard.objective</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_objective_tree"/>
+        </record>
+
+        <!-- ═══════════════════════════════════════════════════ -->
+        <!--  MENUS                                             -->
+        <!-- ═══════════════════════════════════════════════════ -->
+
+        <menuitem id="menu_dashboard_root"
+                  name="Dashboard"
+                  sequence="10"/>
+
+        <menuitem id="menu_dashboard_main"
+                  name="Business Dashboard"
+                  parent="menu_dashboard_root"
+                  action="action_dashboard_client"
+                  sequence="5"/>
+
+        <menuitem id="menu_dashboard_kpi"
+                  name="KPI Management"
+                  parent="menu_dashboard_root"
+                  action="action_kpi"
+                  sequence="10"/>
+
+        <menuitem id="menu_dashboard_objective"
+                  name="Strategic Objectives"
+                  parent="menu_dashboard_root"
+                  action="action_objective"
+                  sequence="20"/>
+
+    </data>
+</odoo>

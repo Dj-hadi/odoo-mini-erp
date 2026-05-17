@@ -1,0 +1,35 @@
+<odoo>
+    <record id="action_stock_lots" model="ir.actions.act_window">
+        <field name="name">Stock Lots</field>
+        <field name="res_model">stock.lot.isil</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help">Manage lots for traceability.</field>
+    </record>
+
+    <record id="action_stock_alerts" model="ir.actions.act_window">
+        <field name="name">Stock Alerts</field>
+        <field name="res_model">stock.alert</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help">Products below reorder threshold.</field>
+        <!-- ❗ DOMAIN FILTER HERE -->
+        <field name="domain"> [('product_id.stock_lot_isil_ids', '!=', False), ('current_qty',
+            '&lt;=', 5)]
+        </field>
+    </record>
+
+    <record id="action_stock_lots_raw_materials" model="ir.actions.act_window">
+        <field name="name">Raw Material Lots</field>
+        <field name="res_model">stock.lot.isil</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('lot_type','=','raw_material')]</field>
+    </record>
+
+    <record id="action_stock_lots_finished_products" model="ir.actions.act_window">
+        <field name="name">Finished Product Lots</field>
+        <field name="res_model">stock.lot.isil</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('lot_type','=','finished_product')]</field>
+    </record>
+
+
+</odoo>

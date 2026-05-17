@@ -1,0 +1,447 @@
+// ═══════════════════════════════════════════════════════════════
+//  ISIL WELCOME — Overlay slideshow  (all prefixed isl-)
+// ═══════════════════════════════════════════════════════════════
+
+// ── Keyframes (global scope, prefixed to avoid collision) ───────
+
+@keyframes islFloatOrb {
+    0%   { transform: translateY(0px)   rotate(0deg)  scale(1);    }
+    25%  { transform: translateY(-22px) rotate(6deg)  scale(1.03); }
+    50%  { transform: translateY(-8px)  rotate(-4deg) scale(0.97); }
+    75%  { transform: translateY(-18px) rotate(9deg)  scale(1.02); }
+    100% { transform: translateY(0px)   rotate(0deg)  scale(1);    }
+}
+
+@keyframes islRiseIn {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0);    }
+}
+
+@keyframes islPopIn {
+    from { opacity: 0; transform: scale(.4); }
+    to   { opacity: 1; transform: scale(1);  }
+}
+
+// ── Full-screen overlay ─────────────────────────────────────────
+
+.isl-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    overflow: hidden;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    transition: opacity .75s ease;
+
+    &.isl-exiting { opacity: 0; pointer-events: none; }
+}
+
+// ── Slides ──────────────────────────────────────────────────────
+
+.isl-slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: scale(1.04);
+    transition: opacity .9s cubic-bezier(.4,0,.2,1),
+                transform .9s cubic-bezier(.4,0,.2,1);
+    pointer-events: none;
+
+    &.isl-active {
+        opacity: 1;
+        transform: scale(1);
+        pointer-events: all;
+    }
+}
+
+.isl-s1 { background: radial-gradient(ellipse 120% 120% at 50% 60%, #0d2137 0%, #071525 60%, #000 100%); }
+.isl-s2 { background: linear-gradient(160deg, #0a0f1e 0%, #0f1f3d 50%, #0a0f1e 100%); }
+.isl-s3 { background: radial-gradient(ellipse 140% 140% at 50% 40%, #052e16 0%, #064e3b 50%, #022c22 100%); }
+
+// ── Particles ────────────────────────────────────────────────────
+
+.isl-particles {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+%isl-particle-base {
+    position: absolute;
+    border-radius: 50%;
+    animation: islFloatOrb ease-in-out infinite;
+}
+
+.isl-orb {
+    @extend %isl-particle-base;
+    background: radial-gradient(circle at 38% 32%,
+        #a7f3d0 0%, #34d399 25%, #059669 60%, #064e3b 100%);
+    box-shadow:
+        0 8px 32px rgba(5,150,105,.45),
+        inset 0 -6px 16px rgba(0,0,0,.35),
+        inset 0 4px 8px rgba(255,255,255,.15);
+}
+
+.isl-sparkle {
+    @extend %isl-particle-base;
+    background: radial-gradient(circle at 38% 32%,
+        #fef9c3 0%, #fde68a 25%, #f59e0b 60%, #92400e 100%);
+    box-shadow:
+        0 6px 24px rgba(245,158,11,.5),
+        inset 0 -4px 12px rgba(0,0,0,.35),
+        inset 0 3px 6px rgba(255,255,255,.2);
+}
+
+.isl-mdot {
+    @extend %isl-particle-base;
+    filter: blur(1px);
+}
+
+// ── Centre wrapper ───────────────────────────────────────────────
+
+.isl-center {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    color: #fff;
+}
+
+// ── Slide 1 ──────────────────────────────────────────────────────
+
+.isl-s1-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .45em;
+    text-transform: uppercase;
+    color: #6ee7b7;
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: islRiseIn .6s ease .4s forwards;
+}
+
+.isl-s1-name {
+    font-size: clamp(72px, 13vw, 128px);
+    font-weight: 900;
+    letter-spacing: -.03em;
+    line-height: 1;
+    background: linear-gradient(135deg, #fff 30%, #a7f3d0 70%, #34d399 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 4px 40px rgba(110,231,183,.3));
+    opacity: 0;
+    animation: islRiseIn .7s ease .6s forwards;
+}
+
+.isl-s1-suffix {
+    font-size: clamp(26px, 4vw, 40px);
+    font-weight: 300;
+    letter-spacing: .3em;
+    color: rgba(255,255,255,.45);
+    margin-top: -6px;
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: islRiseIn .7s ease .75s forwards;
+}
+
+.isl-s1-sub {
+    font-size: clamp(13px, 1.8vw, 17px);
+    color: rgba(255,255,255,.5);
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    font-weight: 400;
+    opacity: 0;
+    animation: islRiseIn .6s ease 1.0s forwards;
+}
+
+.isl-s1-pills {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 32px;
+    opacity: 0;
+    animation: islRiseIn .6s ease 1.2s forwards;
+}
+
+.isl-pill {
+    padding: 5px 14px;
+    border-radius: 100px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    border: 1px solid;
+}
+
+// ── Slide 2 ──────────────────────────────────────────────────────
+
+.isl-s2-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .45em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.35);
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: islRiseIn .5s ease .2s forwards;
+}
+
+.isl-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 200px);
+    gap: 14px;
+}
+
+.isl-mcard {
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.07);
+    border-radius: 18px;
+    padding: 22px 20px 14px;
+    text-align: center;
+    backdrop-filter: blur(12px);
+    opacity: 0;
+    transform: translateY(24px) scale(.97);
+    transition: opacity .4s ease, transform .4s ease, background .25s, border-color .25s;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 3px;
+        border-radius: 18px 18px 0 0;
+        background: var(--acc);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform .4s .1s ease;
+    }
+
+    &.isl-vis {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+
+        &::before { transform: scaleX(1); }
+    }
+
+    &:hover {
+        background: rgba(255,255,255,.1);
+        border-color: rgba(255,255,255,.18);
+        transform: translateY(-6px) scale(1.02) !important;
+        box-shadow: 0 16px 40px rgba(0,0,0,.35);
+
+        .isl-mcard-hint { opacity: 1; transform: translateY(0); }
+    }
+}
+
+.isl-mcard-icon { font-size: 30px; margin-bottom: 10px; line-height: 1; }
+
+.isl-mcard-name {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.85);
+    margin-bottom: 4px;
+}
+
+.isl-mcard-tag {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: .06em;
+    color: var(--acc);
+    opacity: .8;
+    margin-bottom: 2px;
+}
+
+.isl-mcard-hint {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    color: var(--acc);
+    text-transform: uppercase;
+    margin-top: 8px;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity .2s ease, transform .2s ease;
+}
+
+// ── Slide 3 ──────────────────────────────────────────────────────
+
+.isl-s3-icon {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.12);
+    border: 2px solid rgba(255,255,255,.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 28px;
+    font-size: 36px;
+    opacity: 0;
+    animation: islPopIn .55s cubic-bezier(.34,1.56,.64,1) .3s forwards;
+}
+
+.isl-s3-title {
+    font-size: clamp(42px, 7vw, 72px);
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: -.02em;
+    line-height: 1;
+    opacity: 0;
+    animation: islRiseIn .65s ease .55s forwards;
+}
+
+.isl-s3-company {
+    font-size: clamp(13px, 1.8vw, 17px);
+    color: rgba(255,255,255,.5);
+    margin-top: 10px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    font-weight: 400;
+    opacity: 0;
+    animation: islRiseIn .6s ease .75s forwards;
+}
+
+.isl-s3-divider {
+    width: 60px; height: 2px;
+    background: rgba(255,255,255,.2);
+    border-radius: 2px;
+    margin: 28px auto;
+    opacity: 0;
+    animation: islRiseIn .5s ease .9s forwards;
+}
+
+.isl-s3-chips {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 540px;
+    margin: 0 auto 36px;
+    opacity: 0;
+    animation: islRiseIn .6s ease 1.0s forwards;
+}
+
+.isl-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 100px;
+    background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.12);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    color: rgba(255,255,255,.8);
+    text-transform: uppercase;
+}
+
+.isl-chip-dot {
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.isl-chip-link {
+    cursor: pointer;
+    transition: background .2s, transform .2s, color .2s;
+    &:hover {
+        background: rgba(255,255,255,.2);
+        color: #fff;
+        transform: translateY(-2px);
+    }
+}
+
+.isl-enter-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 42px;
+    background: #fff;
+    color: #059669;
+    font-family: inherit;
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    border-radius: 100px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 8px 40px rgba(0,0,0,.25);
+    opacity: 0;
+    animation: islRiseIn .6s ease 1.2s forwards;
+    transition: transform .2s, box-shadow .2s;
+
+    svg { transition: transform .25s; }
+    &:hover { transform: scale(1.05); box-shadow: 0 14px 50px rgba(0,0,0,.35); }
+    &:hover svg { transform: translateX(4px); }
+}
+
+// ── Chrome controls ──────────────────────────────────────────────
+
+.isl-skip {
+    position: absolute;
+    top: 22px; right: 22px;
+    z-index: 10;
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.12);
+    color: rgba(255,255,255,.5);
+    padding: 7px 18px;
+    border-radius: 100px;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    transition: background .2s, color .2s;
+
+    &:hover { background: rgba(255,255,255,.16); color: #fff; }
+}
+
+.isl-dots {
+    position: absolute;
+    bottom: 22px; left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+}
+
+.isl-dot {
+    height: 7px;
+    width: 7px;
+    border-radius: 4px;
+    background: rgba(255,255,255,.25);
+    cursor: pointer;
+    transition: all .35s ease;
+
+    &.isl-dot-on {
+        background: #fff;
+        width: 22px;
+    }
+}
+
+.isl-prog {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: rgba(255,255,255,.08);
+    z-index: 10;
+}
+
+#isl-prog-fill {
+    height: 100%;
+    width: 0;
+    background: #34d399;
+    border-radius: 0 2px 2px 0;
+}

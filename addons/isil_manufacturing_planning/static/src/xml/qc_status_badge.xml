@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="isil_manufacturing_planning.QCStatusBadgeWidget">
+        <span t-att-class="'qc-status-badge ' + badgeClass">
+            <i t-att-class="'fa ' + icon" role="img" t-att-aria-label="label"/>
+            <t t-esc="' ' + label"/>
+        </span>
+    </t>
+
+</templates>

@@ -1,0 +1,60 @@
+﻿// ═══════════════════════════════════════════════════════════════════
+//  ISIL FINANCIAL ANALYTICS — DESIGN TOKENS  (finance_variables.scss)
+// ═══════════════════════════════════════════════════════════════════
+:root {
+    // Brand — emerald
+    --fa-primary:       #059669;
+    --fa-primary-dark:  #047857;
+    --fa-primary-light: #D1FAE5;
+    --fa-accent:        #10B981;
+
+    // Debit / Credit / Balance
+    --fa-debit-bg:      #DBEAFE;
+    --fa-debit-col:     #1E40AF;
+    --fa-credit-bg:     #D1FAE5;
+    --fa-credit-col:    #065F46;
+    --fa-balance-pos-bg:  #D1FAE5;
+    --fa-balance-pos-col: #065F46;
+    --fa-balance-neg-bg:  #FEE2E2;
+    --fa-balance-neg-col: #7F1D1D;
+    --fa-balance-zero-bg: #F3F4F6;
+    --fa-balance-zero-col:#6B7280;
+
+    // Workflow states
+    --fa-draft-bg:      #F3F4F6;
+    --fa-draft-col:     #6B7280;
+    --fa-confirmed-bg:  #DBEAFE;
+    --fa-confirmed-col: #1E40AF;
+    --fa-paid-bg:       #D1FAE5;
+    --fa-paid-col:      #065F46;
+    --fa-posted-bg:     #D1FAE5;
+    --fa-posted-col:    #065F46;
+    --fa-cancelled-bg:  #FEE2E2;
+    --fa-cancelled-col: #7F1D1D;
+
+    // Account types (GL)
+    --ifa-type-asset-bg:       #DBEAFE;
+    --ifa-type-asset-col:      #1E40AF;
+    --ifa-type-liability-bg:   #FEE2E2;
+    --ifa-type-liability-col:  #991B1B;
+    --ifa-type-receivable-bg:  #D1FAE5;
+    --ifa-type-receivable-col: #065F46;
+    --ifa-type-payable-bg:     #FEF3C7;
+    --ifa-type-payable-col:    #92400E;
+    --ifa-type-wage-bg:        #EDE9FE;
+    --ifa-type-wage-col:       #5B21B6;
+
+    // Neutrals
+    --fa-text:          #111827;
+    --fa-text-muted:    #6B7280;
+    --fa-surface:       #ffffff;
+    --fa-surface-2:     #F9FAFB;
+    --fa-border:        #E5E7EB;
+    --fa-border-dark:   #D1D5DB;
+
+    // Shape
+    --fa-radius:        10px;
+    --fa-radius-sm:     6px;
+    --fa-radius-full:   9999px;
+    --fa-ease:          0.2s ease;
+}

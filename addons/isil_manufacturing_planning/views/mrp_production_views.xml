@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+    <!-- ── Production Form: quality + traceability sections ──────── -->
+    <record id="view_mrp_production_form_inherit_quality" model="ir.ui.view">
+        <field name="name">mrp.production.form.inherit.quality</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+        <field name="arch" type="xml">
+
+            <!-- Hidden state fields -->
+            <xpath expr="//field[@name='product_id']" position="after">
+                <field name="quality_check_required" invisible="1"/>
+                <field name="quality_check_done"     invisible="1"/>
+                <field name="gantt_color"            invisible="1"/>
+            </xpath>
+
+            <!-- Replace responsible user with custom employee -->
+            <xpath expr="//field[@name='user_id']" position="replace">
+                <field name="responsible_id" options="{'no_create': True}"/>
+            </xpath>
+
+            <!-- QC banner — shown before Mark Done -->
+            <xpath expr="//button[@name='button_mark_done']" position="before">
+                <div class="mfg-production-qc-section">
+
+                    <!-- Pending banner -->
+                    <div class="mfg-qc-banner mfg-qc-pending"
+                         invisible="quality_check_done">
+                        <i class="fa fa-shield mfg-qc-banner-icon"
+                           role="img" aria-label="QC Pending"/>
+                        <div class="mfg-qc-banner-text">
+                            <strong>Quality Inspection Required</strong>
+                            <p>Complete a quality check before marking this order done.</p>
+                        </div>
+                        <button name="action_create_quality_check"
+                                type="object"
+                                string="Start Inspection"
+                                class="btn-primary mfg-qc-btn"
+                                invisible="quality_check_done"/>
+                    </div>
+
+                    <!-- Complete banner -->
+                    <div class="mfg-qc-banner mfg-qc-complete"
+                         invisible="not quality_check_done">
+                        <i class="fa fa-check-circle fa-2x mfg-qc-banner-icon"
+                           role="img" aria-label="QC Done"/>
+                        <div class="mfg-qc-banner-text">
+                            <strong>Quality Check Completed</strong>
+                            <div><field name="quality_check_id" readonly="1"/></div>
+                        </div>
+                    </div>
+
+                </div>
+            </xpath>
+
+            <!-- ISIL Stock Traceability section -->
+            <xpath expr="//sheet" position="inside">
+                <div class="mfg-lots-section">
+                    <h4 class="mfg-section-title">
+                        <i class="fa fa-cubes" role="img" aria-label="Lots"/>
+                        Stock Traceability
+                    </h4>
+                    <group>
+                        <group string="Consumed Lots">
+                            <field name="consumed_lot_ids" readonly="1" nolabel="1">
+                                <tree>
+                                    <field name="name" string="Lot #"/>
+                                    <field name="product_id" string="Product"/>
+                                    <field name="quantity" string="Qty"/>
+                                    <field name="expiry_date" string="Expiry" optional="show"/>
+                                    <field name="expiry_status" widget="expiry_badge"
+                                           string="Status"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group string="Finished Product Lot">
+                            <field name="finished_lot_id" readonly="1"/>
+                        </group>
+                    </group>
+                </div>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- ── Production Tree: QC status column ─────────────────────── -->
+    <record id="view_mrp_production_tree_inherit_quality" model="ir.ui.view">
+        <field name="name">mrp.production.tree.inherit.quality</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="inside">
+                <field name="quality_check_done" widget="qc_status_badge"
+                       string="QC" optional="show"/>
+                <field name="gantt_color" column_invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- ── Gantt view ─────────────────────────────────────────────── -->
+    <record id="view_mrp_production_gantt" model="ir.ui.view">
+        <field name="name">mrp.production.gantt</field>
+        <field name="model">mrp.production</field>
+        <field name="arch" type="xml">
+            <gantt string="Production Planning"
+                   date_start="date_start"
+                   date_stop="date_finished"
+                   default_group_by="product_id"
+                   color="responsible_id"
+                   progress="product_qty"
+                   decoration-danger="quality_check_required and not quality_check_done"
+                   decoration-warning="state == 'confirmed'">
+                <field name="name"/>
+                <field name="product_id"/>
+                <field name="product_qty"/>
+                <field name="state"/>
+                <field name="quality_check_done"/>
+                <field name="quality_check_required"/>
+                <field name="responsible_id"/>
+                <templates>
+                    <div t-name="gantt-popover" class="mfg-gantt-popover">
+                        <div class="mfg-gantt-popover-header">
+                            <t t-esc="record.name.data"/>
+                        </div>
+                        <div class="mfg-gantt-popover-body">
+                            <div>Product: <t t-esc="record.product_id.data.display_name"/></div>
+                            <div>Qty: <t t-esc="record.product_qty.data"/></div>
+                            <div>State: <t t-esc="record.state.data"/></div>
+                            <div>QC: <t t-esc="record.quality_check_done.data ? 'Done' : 'Pending'"/></div>
+                        </div>
+                    </div>
+                </templates>
+            </gantt>
+        </field>
+    </record>
+
+    <!-- ── Calendar view ──────────────────────────────────────────── -->
+    <record id="view_mrp_production_calendar" model="ir.ui.view">
+        <field name="name">mrp.production.calendar</field>
+        <field name="model">mrp.production</field>
+        <field name="arch" type="xml">
+            <calendar string="Production Schedule"
+                      date_start="date_start"
+                      date_stop="date_finished"
+                      color="responsible_id"
+                      quick_create="false"
+                      mode="month">
+                <field name="name"/>
+                <field name="product_id"/>
+                <field name="product_qty"/>
+                <field name="state"/>
+                <field name="responsible_id"/>
+                <field name="quality_check_done"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- ── Action + Menu ──────────────────────────────────────────── -->
+    <record id="action_mrp_production_gantt" model="ir.actions.act_window">
+        <field name="name">Production Planning</field>
+        <field name="res_model">mrp.production</field>
+        <field name="view_mode">gantt,calendar,tree,form</field>
+        <field name="view_id" ref="view_mrp_production_gantt"/>
+        <field name="search_view_id" ref="mrp.view_mrp_production_filter"/>
+        <field name="context">{'search_default_planned': 1}</field>
+    </record>
+
+    <menuitem id="menu_mrp_production_gantt"
+              name="Production Planning"
+              parent="mrp.menu_mrp_root"
+              action="action_mrp_production_gantt"
+              sequence="5"/>
+
+    </data>
+</odoo>

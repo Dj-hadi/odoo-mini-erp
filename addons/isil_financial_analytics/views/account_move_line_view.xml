@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- ROOT MENU (reuse / update if already exists) -->
+    <menuitem id="menu_isil_finance_root"
+              name="Financial Analytics"
+              sequence="5"/>
+
+    <!-- Inherit standard Journal Items tree to add analytic account -->
+    <record id="view_isil_account_move_line_tree_inherit" model="ir.ui.view">
+        <field name="name">isil.account.move.line.tree.inherit</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account.view_move_line_tree"/>
+        <field name="arch" type="xml">
+            <!-- Add analytic account after account_id -->
+            <xpath expr="//tree/field[@name='account_id']" position="after">
+                <field name="analytic_account_id"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Action: reuse standard behaviour (tree,form) -->
+    <record id="action_isil_account_move_lines" model="ir.actions.act_window">
+        <field name="name">Journal Items</field>
+        <field name="res_model">account.move.line</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Menu under your Financial Analytics root -->
+    <menuitem id="menu_isil_account_move_lines"
+              name="Journal Items"
+              parent="menu_isil_finance_root"
+              action="action_isil_account_move_lines"
+              sequence="10"/>
+
+</odoo>

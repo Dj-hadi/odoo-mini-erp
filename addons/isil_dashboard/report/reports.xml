@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Paper format -->
+    <record id="paperformat_dashboard_report" model="report.paperformat">
+        <field name="name">Dashboard Report Format</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">40</field>
+        <field name="margin_bottom">23</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_spacing">35</field>
+    </record>
+
+    <!-- Sales Report Action -->
+    <record id="action_report_sales_monthly" model="ir.actions.report">
+        <field name="name">Monthly Sales Report</field>
+        <field name="model">isil_dashboard.kpi</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">isil_dashboard.report_sales_monthly_template</field>
+        <field name="report_file">isil_dashboard.report_sales_monthly_template</field>
+        <field name="binding_model_id" ref="model_isil_dashboard_kpi"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="paperformat_dashboard_report"/>
+    </record>
+
+    <!-- Stock Report Action -->
+    <record id="action_report_stock_valued" model="ir.actions.report">
+        <field name="name">Valued Stock Report</field>
+        <field name="model">isil_dashboard.kpi</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">isil_dashboard.report_stock_valued_template</field>
+        <field name="report_file">isil_dashboard.report_stock_valued_template</field>
+        <field name="binding_model_id" ref="model_isil_dashboard_kpi"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="paperformat_dashboard_report"/>
+    </record>
+
+    <!-- Monthly Sales Report Template -->
+    <template id="report_sales_monthly_template">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <div class="text-center" style="border-bottom: 3px solid #3498db; padding-bottom: 20px; margin-bottom: 30px;">
+                        <h2 style="color: #2c3e50; margin: 0;">RAPPORT DES VENTES MENSUEL</h2>
+                        <h4 style="color: #7f8c8d; margin: 10px 0 0 0;">Monthly Sales Report</h4>
+                        <p style="color: #95a5a6; margin: 5px 0 0 0;">Generated on <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y %H:%M')"/></p>
+                    </div>
+
+                    <!-- Executive Summary -->
+                    <div style="background: #ecf0f1; padding: 20px; border-radius: 8px; margin-bottom: 25px;">
+                        <h4 style="color: #2c3e50; margin-top: 0;">Résumé Exécutif / Executive Summary</h4>
+                        <div style="display: flex; justify-content: space-around; margin-top: 15px;">
+                            <div style="text-align: center;">
+                                <div style="font-size: 32px; font-weight: bold; color: #27ae60;">125,450</div>
+                                <div style="color: #7f8c8d;">Chiffre d'Affaires Total</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 32px; font-weight: bold; color: #3498db;">248</div>
+                                <div style="color: #7f8c8d;">Nombre de Commandes</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 32px; font-weight: bold; color: #f39c12;">506</div>
+                                <div style="color: #7f8c8d;">Panier Moyen</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sales KPIs -->
+                    <h4 style="color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;">Indicateurs de Performance (KPIs)</h4>
+                    <table class="table table-bordered" style="margin-top: 15px;">
+                        <thead style="background: #3498db; color: white;">
+                            <tr>
+                                <th>KPI</th>
+                                <th>Valeur Actuelle</th>
+                                <th>Objectif</th>
+                                <th>Unité</th>
+                                <th>Performance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="docs" t-as="kpi">
+                                <tr>
+                                    <td><strong t-field="kpi.name"/></td>
+                                    <td t-field="kpi.value"/>
+                                    <td t-field="kpi.target"/>
+                                    <td t-field="kpi.unit"/>
+                                    <td>
+                                        <t t-if="kpi.target > 0">
+                                            <span t-if="kpi.value >= kpi.target" style="color: #27ae60; font-weight: bold;"> Atteint</span>
+                                            <span t-else="" style="color: #e74c3c; font-weight: bold;"> En cours</span>
+                                        </t>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+
+                    <!-- Mock Sales Data by Week -->
+                    <h4 style="color: #2c3e50; border-bottom: 2px solid #27ae60; padding-bottom: 10px; margin-top: 30px;">Ventes Hebdomadaires / Weekly Sales</h4>
+                    <table class="table table-striped" style="margin-top: 15px;">
+                        <thead>
+                            <tr style="background: #27ae60; color: white;">
+                                <th>Semaine</th>
+                                <th>Commandes</th>
+                                <th>Chiffre d'Affaires</th>
+                                <th>Évolution</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Semaine 1</td><td>58</td><td>29,300</td><td style="color: #27ae60;">+12%</td></tr>
+                            <tr><td>Semaine 2</td><td>62</td><td>31,650</td><td style="color: #27ae60;">+8%</td></tr>
+                            <tr><td>Semaine 3</td><td>64</td><td>32,800</td><td style="color: #27ae60;">+4%</td></tr>
+                            <tr><td>Semaine 4</td><td>64</td><td>31,700</td><td style="color: #e74c3c;">-3%</td></tr>
+                            <tr style="background: #ecf0f1; font-weight: bold;">
+                                <td>TOTAL</td><td>248</td><td>125,450</td><td style="color: #27ae60;">+5.5%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Top Products -->
+                    <h4 style="color: #2c3e50; border-bottom: 2px solid #f39c12; padding-bottom: 10px; margin-top: 30px;">Top 5 Produits / Top Products</h4>
+                    <table class="table" style="margin-top: 15px;">
+                        <thead>
+                            <tr style="background: #f39c12; color: white;">
+                                <th>Rang</th>
+                                <th>Produit</th>
+                                <th>Quantité Vendue</th>
+                                <th>CA Généré</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>1</td><td>Produit Premium A</td><td>145 unités</td><td>28,750</td></tr>
+                            <tr><td>2</td><td>Produit Standard B</td><td>198 unités</td><td>24,950</td></tr>
+                            <tr><td>3</td><td>Service Premium C</td><td>89 unités</td><td>22,300</td></tr>
+                            <tr><td>4</td><td>Produit Deluxe D</td><td>112 unités</td><td>19,850</td></tr>
+                            <tr><td>5</td><td>Pack Économique E</td><td>245 unités</td><td>16,200</td></tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Analysis -->
+                    <div style="background: #d4edda; border-left: 4px solid #27ae60; padding: 15px; margin-top: 30px;">
+                        <h5 style="color: #155724; margin-top: 0;">Analyse et Recommandations</h5>
+                        <ul style="color: #155724; margin-bottom: 0;">
+                            <li>Performance globale positive avec une croissance de 5.5% ce mois</li>
+                            <li>Léger ralentissement en semaine 4 à surveiller</li>
+                            <li>Les produits premium génèrent 45% du CA total</li>
+                            <li>Recommandation: Renforcer les actions marketing sur les produits standard</li>
+                        </ul>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <!-- Valued Stock Report Template -->
+    <template id="report_stock_valued_template">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <div class="text-center" style="border-bottom: 3px solid #9b59b6; padding-bottom: 20px; margin-bottom: 30px;">
+                        <h2 style="color: #2c3e50; margin: 0;">RAPPORT D'ÉTAT DES STOCKS VALORISÉ</h2>
+                        <h4 style="color: #7f8c8d; margin: 10px 0 0 0;">Valued Inventory Status Report</h4>
+                        <p style="color: #95a5a6; margin: 5px 0 0 0;">Generated on <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y %H:%M')"/></p>
+                    </div>
+
+                    <!-- Stock Overview -->
+                    <div style="background: #ecf0f1; padding: 20px; border-radius: 8px; margin-bottom: 25px;">
+                        <h4 style="color: #2c3e50; margin-top: 0;">Vue d'Ensemble / Overview</h4>
+                        <div style="display: flex; justify-content: space-around; margin-top: 15px;">
+                            <div style="text-align: center;">
+                                <div style="font-size: 32px; font-weight: bold; color: #9b59b6;">456,780</div>
+                                <div style="color: #7f8c8d;">Valeur Totale Stock</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 32px; font-weight: bold; color: #3498db;">1,245</div>
+                                <div style="color: #7f8c8d;">Produits en Stock</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 32px; font-weight: bold; color: #e74c3c;">23</div>
+                                <div style="color: #7f8c8d;">Alertes Stock Bas</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stock by Category -->
+                    <h4 style="color: #2c3e50; border-bottom: 2px solid #9b59b6; padding-bottom: 10px;">Stock par Catégorie / Stock by Category</h4>
+                    <table class="table table-bordered" style="margin-top: 15px;">
+                        <thead style="background: #9b59b6; color: white;">
+                            <tr>
+                                <th>Catégorie</th>
+                                <th>Quantité</th>
+                                <th>Valeur Unitaire Moy.</th>
+                                <th>Valeur Totale</th>
+                                <th>% du Stock</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Produits Finis</strong></td>
+                                <td>645</td>
+                                <td>285</td>
+                                <td>183,825</td>
+                                <td>40.2%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Matières Premières</strong></td>
+                                <td>350</td>
+                                <td>420</td>
+                                <td>147,000</td>
+                                <td>32.2%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Composants</strong></td>
+                                <td>180</td>
+                                <td>385</td>
+                                <td>69,300</td>
+                                <td>15.2%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Produits Semi-Finis</strong></td>
+                                <td>70</td>
+                                <td>810</td>
+                                <td>56,655</td>
+                                <td>12.4%</td>
+                            </tr>
+                            <tr style="background: #ecf0f1; font-weight: bold;">
+                                <td>TOTAL</td>
+                                <td>1,245</td>
+                                <td>-</td>
+                                <td>456,780</td>
+                                <td>100%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Low Stock Alerts -->
+                    <h4 style="color: #2c3e50; border-bottom: 2px solid #e74c3c; padding-bottom: 10px; margin-top: 30px;">Alertes Stock Critique / Critical Stock Alerts</h4>
+                    <table class="table table-striped" style="margin-top: 15px;">
+                        <thead>
+                            <tr style="background: #e74c3c; color: white;">
+                                <th>Produit</th>
+                                <th>Stock Actuel</th>
+                                <th>Stock Minimum</th>
+                                <th>Valeur</th>
+                                <th>Statut</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Composant Électronique XJ-450</td>
+                                <td>8</td>
+                                <td>25</td>
+                                <td>2,840</td>
+                                <td><span style="color: #e74c3c; font-weight: bold;"> CRITIQUE</span></td>
+                            </tr>
+                            <tr>
+                                <td>Matière Première Type A</td>
+                                <td>15</td>
+                                <td>30</td>
+                                <td>6,300</td>
+                                <td><span style="color: #f39c12; font-weight: bold;"> BAS</span></td>
+                            </tr>
+                            <tr>
+                                <td>Produit Fini Standard B</td>
+                                <td>22</td>
+                                <td>40</td>
+                                <td>5,720</td>
+                                <td><span style="color: #f39c12; font-weight: bold;"> BAS</span></td>
+                            </tr>
+                            <tr>
+                                <td>Pièce Détachée PD-789</td>
+                                <td>5</td>
+                                <td>20</td>
+                                <td>3,450</td>
+                                <td><span style="color: #e74c3c; font-weight: bold;"> CRITIQUE</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Stock Movement Analysis -->
+                    <h4 style="color: #2c3e50; border-bottom: 2px solid #27ae60; padding-bottom: 10px; margin-top: 30px;">Analyse des Mouvements / Movement Analysis</h4>
+                    <table class="table" style="margin-top: 15px;">
+                        <thead>
+                            <tr style="background: #27ae60; color: white;">
+                                <th>Période</th>
+                                <th>Entrées</th>
+                                <th>Sorties</th>
+                                <th>Rotation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>30 derniers jours</td><td>485 unités</td><td>523 unités</td><td>42%</td></tr>
+                            <tr><td>60 derniers jours</td><td>892 unités</td><td>945 unités</td><td>38%</td></tr>
+                            <tr><td>90 derniers jours</td><td>1,234 unités</td><td>1,298 unités</td><td>35%</td></tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Stock Value by Location -->
+                    <h4 style="color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; margin-top: 30px;">Valorisation par Emplacement / Value by Location</h4>
+                    <table class="table" style="margin-top: 15px;">
+                        <thead>
+                            <tr style="background: #3498db; color: white;">
+                                <th>Entrepôt</th>
+                                <th>Produits</th>
+                                <th>Valeur Stock</th>
+                                <th>% Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Entrepôt Principal - Zone A</td><td>645</td><td>245,890</td><td>53.8%</td></tr>
+                            <tr><td>Entrepôt Principal - Zone B</td><td>380</td><td>142,670</td><td>31.2%</td></tr>
+                            <tr><td>Entrepôt Secondaire</td><td>220</td><td>68,220</td><td>15.0%</td></tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Recommendations -->
+                    <div style="background: #fff3cd; border-left: 4px solid #f39c12; padding: 15px; margin-top: 30px;">
+                        <h5 style="color: #856404; margin-top: 0;">Recommandations Stratégiques</h5>
+                        <ul style="color: #856404; margin-bottom: 0;">
+                            <li>Réapprovisionner immédiatement 23 produits en alerte critique</li>
+                            <li>Optimiser la rotation des stocks dans l'entrepôt Zone B (31.2% de valorisation)</li>
+                            <li>Mettre en place des commandes automatiques pour les produits à haute rotation</li>
+                            <li>Réviser les niveaux de stock minimum pour 12 références</li>
+                            <li>Valorisation totale en hausse de 3.2% par rapport au mois précédent</li>
+                        </ul>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

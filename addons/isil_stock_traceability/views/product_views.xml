@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_product_form_inherit_isil" model="ir.ui.view">
+        <field name="name">product.product.form.isil.inherit</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//header" position="inside">
+                <button name="%(action_stock_alerts)d" type="action"
+                        string="Alerts" class="btn-secondary"/>
+            </xpath>
+
+            <xpath expr="//notebook" position="inside">
+                <page string="Lots &amp; Stock" name="lots_tab">
+                    <group>
+                        <group string="Reorder Settings">
+                            <field name="reorder_threshold"/>
+                            <field name="lots_count" readonly="1" string="Raw Material Lots"/>
+                        </group>
+                    </group>
+                    <field name="stock_lot_isil_ids" class="st-lot-tree">
+                        <tree editable="bottom"
+                              decoration-danger="expiry_status == 'expired'"
+                              decoration-warning="expiry_status == 'expiring_soon'">
+                            <field name="name" string="Lot #"/>
+                            <field name="lot_type" widget="lot_type_badge" string="Type"/>
+                            <field name="quantity" string="Qty"/>
+                            <field name="production_date" string="Produced" optional="show"/>
+                            <field name="expiry_date" string="Expiry"/>
+                            <field name="expiry_status" widget="expiry_badge" string="Status"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

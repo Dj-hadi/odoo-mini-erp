@@ -1,0 +1,338 @@
+// ═══════════════════════════════════════════════════════════════════════
+//  STOCK MODULE TABLES & FORMS  (stock_tables.scss)
+//  Requires stock_variables.scss loaded first.
+// ═══════════════════════════════════════════════════════════════════════
+
+// ── Shared table chrome ────────────────────────────────────────────────
+
+.o_list_view.st-lot-tree,
+.o_list_view.st-alert-tree {
+
+    thead th {
+        background: var(--st-surface-2, #F1F5F9) !important;
+        border-bottom: 2px solid var(--st-primary-light, #CCFBF1) !important;
+        font-size: 11px !important;
+        font-weight: 700 !important;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--st-text-muted, #64748B) !important;
+        padding: 10px 14px !important;
+    }
+
+    tbody tr.o_data_row {
+        transition: background var(--st-ease);
+
+        td {
+            padding: 10px 14px !important;
+            vertical-align: middle !important;
+            border-bottom: 1px solid var(--st-border, #E2E8F0) !important;
+            color: var(--st-text, #0F172A);
+            font-size: 13px;
+        }
+
+        &:hover td { background: rgba(13, 148, 136, 0.04) !important; }
+    }
+}
+
+// ── Lot Tree ───────────────────────────────────────────────────────────
+
+.o_list_view.st-lot-tree {
+
+    tbody tr.o_data_row.o_danger td {
+        background: var(--st-expired-bg, #FEE2E2) !important;
+    }
+    tbody tr.o_data_row.o_warning td {
+        background: var(--st-expiring-bg, #FEF3C7) !important;
+    }
+
+    td[data-name="quantity"] {
+        font-weight: 700 !important;
+        color: var(--st-primary, #0D9488) !important;
+    }
+    td[data-name="name"] {
+        font-family: monospace;
+        font-size: 12px !important;
+        color: var(--st-text-muted, #64748B) !important;
+        letter-spacing: 0.03em;
+    }
+}
+
+// ── Alert Tree ─────────────────────────────────────────────────────────
+
+.o_list_view.st-alert-tree {
+
+    tbody tr.o_data_row.o_danger td {
+        background: var(--st-expired-bg, #FEE2E2) !important;
+    }
+    tbody tr.o_data_row.o_muted td {
+        opacity: 0.55;
+    }
+
+    td[data-name="current_qty"] {
+        font-weight: 800 !important;
+        color: var(--st-expired, #DC2626) !important;
+    }
+    td[data-name="reorder_threshold"] {
+        color: var(--st-text-muted, #64748B) !important;
+    }
+    td[data-name="qty_gap"] {
+        font-weight: 700 !important;
+        color: var(--st-expiring, #D97706) !important;
+    }
+
+    // Resolve button pill
+    .st-btn-resolve {
+        background: var(--st-fresh, #059669) !important;
+        color: #fff !important;
+        border: none !important;
+        border-radius: var(--st-radius-full, 9999px) !important;
+        font-size: 11px !important;
+        font-weight: 600 !important;
+        padding: 3px 10px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 4px !important;
+        transition: background var(--st-ease) !important;
+
+        &:hover { background: #047857 !important; }
+    }
+}
+
+// ── Expiry Badge Widget ────────────────────────────────────────────────
+
+.st-expiry-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    border-radius: var(--st-radius-full, 9999px);
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+
+    .fa { font-size: 11px; }
+
+    &.st-expiry-fresh   { background: var(--st-fresh-bg,    #D1FAE5); color: var(--st-fresh-text,    #065F46); }
+    &.st-expiry-soon    { background: var(--st-expiring-bg, #FEF3C7); color: var(--st-expiring-text, #92400E); }
+    &.st-expiry-expired { background: var(--st-expired-bg,  #FEE2E2); color: var(--st-expired-text,  #991B1B); }
+    &.st-expiry-none    { background: var(--st-surface-2,   #F1F5F9); color: var(--st-text-muted,    #64748B); }
+}
+
+// ── Lot Type Badge Widget ──────────────────────────────────────────────
+
+.st-lot-type-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    border-radius: var(--st-radius-full, 9999px);
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+
+    .fa { font-size: 10px; }
+
+    &.st-lot-raw      { background: var(--st-raw-bg,      #E0F2FE); color: var(--st-raw,      #0284C7); }
+    &.st-lot-finished { background: var(--st-finished-bg, #EDE9FE); color: var(--st-finished, #7C3AED); }
+}
+
+.st-lot-type-select {
+    padding: 4px 8px !important;
+    border-radius: var(--st-radius-sm, 6px) !important;
+    font-size: 13px !important;
+    border: 1px solid var(--st-border-dark, #CBD5E1) !important;
+    cursor: pointer;
+}
+
+// ── Lot Form ───────────────────────────────────────────────────────────
+
+.st-lot-form {
+
+    .o_form_sheet_bg { background: var(--st-bg, #F8FAFC) !important; }
+
+    .o_form_sheet {
+        background: var(--st-surface) !important;
+        border-radius: var(--st-radius-lg, 14px) !important;
+        box-shadow: var(--st-shadow-md) !important;
+        overflow: hidden;
+        padding: 0 !important;
+    }
+
+    .oe_title {
+        background: linear-gradient(135deg, var(--st-primary, #0D9488) 0%, var(--st-primary-dark, #0F766E) 100%);
+        padding: 28px 32px 20px;
+        margin: 0 !important;
+
+        label { color: rgba(255,255,255,0.6) !important; font-size: 10px; text-transform: uppercase; letter-spacing: 0.07em; }
+
+        h1 {
+            margin: 0;
+            font-size: 26px;
+            font-weight: 800;
+
+            .o_field_widget, .o_field_widget input {
+                color: #fff !important;
+                background: transparent !important;
+                border: none !important;
+                font-size: 26px !important;
+                font-weight: 800 !important;
+
+                &::placeholder { color: rgba(255,255,255,0.4) !important; }
+                &:focus { box-shadow: none !important; border-bottom: 1px solid rgba(255,255,255,0.4) !important; }
+            }
+        }
+    }
+
+    .o_group {
+        background: var(--st-surface-2, #F1F5F9) !important;
+        border: 1px solid var(--st-border, #E2E8F0) !important;
+        border-radius: var(--st-radius, 10px) !important;
+        padding: 18px 20px !important;
+        margin-bottom: 14px !important;
+        box-shadow: var(--st-shadow-xs) !important;
+    }
+
+    .o_form_label {
+        color: var(--st-text-muted, #64748B) !important;
+        font-weight: 700 !important;
+        font-size: 11px !important;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .o_field_widget input,
+    .o_field_widget select {
+        border-radius: 6px !important;
+        border: 1px solid var(--st-border-dark, #CBD5E1) !important;
+        transition: border-color var(--st-ease), box-shadow var(--st-ease) !important;
+
+        &:focus {
+            border-color: var(--st-primary, #0D9488) !important;
+            box-shadow: 0 0 0 3px var(--st-primary-ring, rgba(13,148,136,0.15)) !important;
+        }
+    }
+}
+
+// ── Alert Form ─────────────────────────────────────────────────────────
+
+.st-alert-form {
+
+    .o_form_sheet_bg { background: var(--st-bg, #F8FAFC) !important; }
+
+    .o_form_sheet {
+        background: var(--st-surface) !important;
+        border-radius: var(--st-radius-lg, 14px) !important;
+        box-shadow: var(--st-shadow-md) !important;
+        overflow: hidden;
+        padding: 0 !important;
+    }
+
+    .st-alert-header {
+        background: linear-gradient(135deg, #DC2626 0%, #B91C1C 100%);
+        padding: 28px 32px;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+
+        .fa { font-size: 36px; opacity: 0.85; }
+
+        .st-alert-header-text {
+            h3 { margin: 0 0 4px; font-size: 20px; font-weight: 800; color: #fff; }
+            p  { margin: 0; font-size: 13px; color: rgba(255,255,255,0.75); }
+
+            .o_field_widget, .o_field_widget span {
+                color: #fff !important;
+                background: transparent !important;
+                border: none !important;
+                font-weight: 600;
+            }
+        }
+    }
+
+    .st-alert-body { padding: 24px 32px; }
+
+    .st-qty-comparison {
+        display: flex;
+        align-items: center;
+        gap: 0;
+        background: var(--st-surface-2, #F1F5F9);
+        border: 1px solid var(--st-border, #E2E8F0);
+        border-radius: var(--st-radius, 10px);
+        padding: 20px 24px;
+        margin-bottom: 20px;
+
+        .st-qty-block {
+            flex: 1;
+            text-align: center;
+
+            .st-qty-value {
+                font-size: 30px;
+                font-weight: 800;
+                line-height: 1;
+
+                &.st-qty-current   { color: var(--st-expired,  #DC2626); }
+                &.st-qty-threshold { color: var(--st-text-muted, #64748B); }
+
+                .o_field_widget, .o_field_widget span {
+                    font-size: 30px !important;
+                    font-weight: 800 !important;
+                    background: transparent !important;
+                    border: none !important;
+                    color: inherit !important;
+                }
+            }
+            .st-qty-label {
+                margin-top: 6px;
+                font-size: 10px;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.06em;
+                color: var(--st-text-muted, #64748B);
+            }
+        }
+
+        .st-qty-sep {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--st-border-dark, #CBD5E1);
+            padding: 0 16px;
+        }
+    }
+
+    .o_group {
+        background: var(--st-surface-2, #F1F5F9) !important;
+        border: 1px solid var(--st-border, #E2E8F0) !important;
+        border-radius: var(--st-radius, 10px) !important;
+        padding: 18px 20px !important;
+        margin-bottom: 14px !important;
+    }
+
+    .o_form_label {
+        color: var(--st-text-muted, #64748B) !important;
+        font-weight: 700 !important;
+        font-size: 11px !important;
+        text-transform: uppercase;
+    }
+
+    .btn-primary {
+        background: var(--st-fresh, #059669) !important;
+        border: none !important;
+        border-radius: var(--st-radius-sm, 6px) !important;
+        font-weight: 600 !important;
+        &:hover { background: #047857 !important; }
+    }
+}
+
+// ── Product inline lot tab ─────────────────────────────────────────────
+
+.o_field_one2many .o_list_view .o_optional_columns_dropdown_toggle ~ * thead th {
+    background: var(--st-surface-2, #F1F5F9) !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--st-text-muted, #64748B) !important;
+}

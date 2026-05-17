@@ -1,0 +1,24 @@
+<odoo>
+    <menuitem id="menu_stock_isil_root" name="Stock ISIL" sequence="10" />
+
+    <menuitem id="menu_stock_lots"
+        name="Lots &amp; Traceability"
+        parent="menu_stock_isil_root"
+        action="action_stock_lots" />
+
+    <menuitem id="menu_stock_alerts"
+        name="Stock Alerts"
+        parent="menu_stock_isil_root"
+        action="action_stock_alerts" />
+
+    <menuitem id="menu_stock_raw_materials"
+        name="Raw Materials"
+        parent="menu_stock_isil_root"
+        action="action_stock_lots_raw_materials" />
+
+    <menuitem id="menu_stock_finished_products"
+        name="Finished Products"
+        parent="menu_stock_isil_root"
+        action="action_stock_lots_finished_products" />
+
+</odoo>

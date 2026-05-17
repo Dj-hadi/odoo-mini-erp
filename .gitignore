@@ -1,0 +1,37 @@
+# ── PostgreSQL data (machine-specific binary, never commit) ────
+data/db/
+
+# ── Odoo filestore (uploads, attachments) ──────────────────────
+data/odoo/
+
+# ── Python ─────────────────────────────────────────────────────
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# ── Environment / secrets ───────────────────────────────────────
+.env
+.env.*
+*.local
+
+# ── OS junk ────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Editors ────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ── Claude Code internal ────────────────────────────────────────
+.claude/
+
+# ── Leftover zip exports ────────────────────────────────────────
+addons/*.zip
+
+# ── Standalone HTML prototype ───────────────────────────────────
+welcome.html

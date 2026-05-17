@@ -1,0 +1,50 @@
+// ═══════════════════════════════════════════════════════════════════════
+//  MANUFACTURING MODULE DESIGN TOKENS  (mfg_variables.scss)
+//  Load this file FIRST in the asset bundle.
+// ═══════════════════════════════════════════════════════════════════════
+
+:root {
+    /* ── Primary (amber / industrial) ── */
+    --mfg-primary:       #D97706;
+    --mfg-primary-dark:  #B45309;
+    --mfg-primary-light: #FEF3C7;
+    --mfg-primary-ring:  rgba(217, 119, 6, 0.15);
+
+    /* ── QC status ── */
+    --mfg-passed:        #059669;
+    --mfg-passed-bg:     #D1FAE5;
+    --mfg-passed-text:   #065F46;
+
+    --mfg-risk:          #D97706;
+    --mfg-risk-bg:       #FEF3C7;
+    --mfg-risk-text:     #92400E;
+
+    --mfg-failed:        #DC2626;
+    --mfg-failed-bg:     #FEE2E2;
+    --mfg-failed-text:   #991B1B;
+
+    /* ── Surfaces ── */
+    --mfg-bg:            #F8FAFC;
+    --mfg-surface:       #FFFFFF;
+    --mfg-surface-2:     #F9FAFB;
+    --mfg-border:        #E5E7EB;
+    --mfg-border-dark:   #D1D5DB;
+    --mfg-text:          #111827;
+    --mfg-text-muted:    #6B7280;
+
+    /* ── Hero dark ── */
+    --mfg-hero-start:    #1E293B;
+    --mfg-hero-end:      #0F172A;
+
+    /* ── Shadows ── */
+    --mfg-shadow-xs: 0 1px 2px rgba(0,0,0,0.05);
+    --mfg-shadow-md: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.04);
+    --mfg-shadow-lg: 0 10px 15px rgba(0,0,0,0.1), 0 4px 6px rgba(0,0,0,0.05);
+
+    /* ── Shape & motion ── */
+    --mfg-radius-lg:   16px;
+    --mfg-radius:      10px;
+    --mfg-radius-sm:   6px;
+    --mfg-radius-full: 9999px;
+    --mfg-ease:        0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}

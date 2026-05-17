@@ -1,0 +1,327 @@
+// ═══════════════════════════════════════════════════════════════════════
+//  PRODUCTION FORM EXTENSIONS, GANTT & CALENDAR  (mfg_production.scss)
+// ═══════════════════════════════════════════════════════════════════════
+
+// ── QC Banner (injected into mrp.production form) ──────────────────────
+
+.mfg-production-qc-section {
+    margin: 0 0 16px;
+}
+
+.mfg-qc-banner {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border-radius: var(--mfg-radius, 10px);
+    padding: 16px 20px;
+    margin-bottom: 16px;
+
+    &.mfg-qc-pending {
+        background: var(--mfg-primary-light, #FEF3C7);
+        border: 1px solid #FCD34D;
+
+        .mfg-qc-banner-icon { color: var(--mfg-primary-dark, #B45309); }
+        .mfg-qc-banner-text strong { color: var(--mfg-primary-dark, #B45309); }
+        .mfg-qc-banner-text p { color: #92400E; margin: 2px 0 0; font-size: 12px; }
+    }
+
+    &.mfg-qc-complete {
+        background: var(--mfg-passed-bg, #D1FAE5);
+        border: 1px solid #6EE7B7;
+
+        .mfg-qc-banner-icon { color: var(--mfg-passed, #059669); }
+        .mfg-qc-banner-text strong { color: var(--mfg-passed-text, #065F46); }
+
+        .o_field_widget, .o_field_widget span {
+            color: var(--mfg-passed-text, #065F46) !important;
+            font-weight: 600;
+        }
+    }
+
+    .mfg-qc-banner-icon {
+        font-size: 28px;
+        flex: 0 0 auto;
+    }
+
+    .mfg-qc-banner-text {
+        flex: 1;
+        strong { font-size: 14px; font-weight: 700; }
+    }
+
+    .mfg-qc-btn {
+        flex: 0 0 auto;
+        background: var(--mfg-primary, #D97706) !important;
+        border: none !important;
+        border-radius: var(--mfg-radius-sm, 6px) !important;
+        font-weight: 600 !important;
+        box-shadow: 0 2px 4px rgba(217,119,6,0.3) !important;
+        transition: background var(--mfg-ease), transform var(--mfg-ease) !important;
+
+        &:hover {
+            background: var(--mfg-primary-dark, #B45309) !important;
+            transform: translateY(-1px);
+        }
+    }
+}
+
+// ── Traceability section ───────────────────────────────────────────────
+
+.mfg-lots-section {
+    border-top: 2px solid var(--mfg-border, #E5E7EB);
+    padding-top: 20px;
+    margin-top: 8px;
+
+    .mfg-section-title {
+        font-size: 13px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--mfg-text-muted, #6B7280);
+        margin: 0 0 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        .fa { color: var(--mfg-primary, #D97706); }
+    }
+
+    .o_group {
+        background: var(--mfg-surface-2, #F9FAFB) !important;
+        border: 1px solid var(--mfg-border, #E5E7EB) !important;
+        border-radius: var(--mfg-radius, 10px) !important;
+        padding: 16px 18px !important;
+    }
+
+    .o_form_label {
+        color: var(--mfg-text-muted, #6B7280) !important;
+        font-weight: 700 !important;
+        font-size: 11px !important;
+        text-transform: uppercase;
+    }
+}
+
+// ── Production Tree (inherited mrp.production tree) ────────────────────
+
+.o_list_view .o_data_row td[data-name="quality_check_done"] .qc-status-badge {
+    font-size: 11px;
+    padding: 2px 8px;
+}
+
+// ── Calendar ──────────────────────────────────────────────────────────
+
+.o_calendar_view {
+
+    // Grid container
+    .fc-view-container {
+        background: var(--mfg-surface, #fff);
+    }
+
+    // Header (month / week / day navigation)
+    .fc-head .fc-head-container {
+        border-bottom: 2px solid var(--mfg-primary-light, #FEF3C7) !important;
+    }
+
+    .fc-day-header,
+    .fc-col-header-cell {
+        background: var(--mfg-surface-2, #F9FAFB) !important;
+        color: var(--mfg-text-muted, #6B7280) !important;
+        font-size: 11px !important;
+        font-weight: 700 !important;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        padding: 8px 0 !important;
+        border: none !important;
+    }
+
+    // Day cells
+    .fc-day,
+    .fc-daygrid-day {
+        border-color: var(--mfg-border, #E5E7EB) !important;
+    }
+
+    // Today column — amber tint
+    .fc-day.fc-today,
+    .fc-daygrid-day.fc-day-today {
+        background: rgba(217, 119, 6, 0.05) !important;
+
+        .fc-day-number,
+        .fc-daygrid-day-number {
+            background: var(--mfg-primary, #D97706) !important;
+            color: #fff !important;
+            border-radius: 50%;
+            width: 26px; height: 26px;
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 12px;
+        }
+    }
+
+    // Day numbers
+    .fc-day-number,
+    .fc-daygrid-day-number {
+        font-weight: 600;
+        font-size: 13px;
+        color: var(--mfg-text, #111827);
+        padding: 6px 8px !important;
+        text-decoration: none !important;
+
+        &:hover { color: var(--mfg-primary, #D97706); }
+    }
+
+    // Event pills — cleaner, rounder
+    .o_event,
+    .fc-event {
+        border-radius: 6px !important;
+        border: none !important;
+        font-size: 11px !important;
+        font-weight: 600 !important;
+        padding: 2px 6px !important;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.15) !important;
+        transition: transform var(--mfg-ease), box-shadow var(--mfg-ease) !important;
+        cursor: pointer;
+
+        &:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2) !important;
+        }
+
+        .o_event_title,
+        .fc-title { font-weight: 600; }
+    }
+
+    // Overflow "more" link
+    .fc-more,
+    .fc-daygrid-more-link {
+        color: var(--mfg-primary, #D97706) !important;
+        font-size: 11px !important;
+        font-weight: 600 !important;
+    }
+
+    // Sidebar calendar filter
+    .o_calendar_filter_item {
+        border-radius: var(--mfg-radius-sm, 6px);
+        padding: 4px 8px;
+        transition: background var(--mfg-ease);
+
+        &:hover { background: var(--mfg-primary-light, #FEF3C7); }
+    }
+}
+
+// ── BOM Tree ──────────────────────────────────────────────────────────
+
+.o_list_view.mfg-bom-tree {
+
+    thead th {
+        background: var(--mfg-surface-2, #F9FAFB) !important;
+        border-bottom: 2px solid var(--mfg-primary-light, #FEF3C7) !important;
+        font-size: 11px !important;
+        font-weight: 700 !important;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--mfg-text-muted, #6B7280) !important;
+        padding: 10px 14px !important;
+    }
+
+    tbody tr.o_data_row {
+        td {
+            padding: 10px 14px !important;
+            vertical-align: middle !important;
+            border-bottom: 1px solid var(--mfg-border, #E5E7EB) !important;
+        }
+        &:hover td { background: var(--mfg-primary-light, #FEF3C7) !important; }
+    }
+
+    // Validation-required rows: amber tint
+    tbody tr.o_data_row.o_warning td {
+        background: rgba(254, 243, 199, 0.5) !important;
+    }
+
+    td[data-name="product_tmpl_id"] { font-weight: 600 !important; }
+
+    td[data-name="product_qty"] {
+        font-weight: 700 !important;
+        color: var(--mfg-primary, #D97706) !important;
+    }
+}
+
+// ── BOM Type Badge ─────────────────────────────────────────────────────
+
+.bom-type-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    border-radius: var(--mfg-radius-full, 9999px);
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+
+    .fa { font-size: 10px; }
+
+    &.bom-type-normal  { background: #ECFDF5; color: #065F46; }
+    &.bom-type-phantom { background: #EFF6FF; color: #1D4ED8; }
+    &.bom-type-sub     { background: var(--mfg-primary-light, #FEF3C7);
+                         color: var(--mfg-primary-dark, #B45309); }
+}
+
+.bom-type-select {
+    padding: 4px 8px !important;
+    border-radius: var(--mfg-radius-sm, 6px) !important;
+    font-size: 13px !important;
+    border: 1px solid var(--mfg-border-dark, #D1D5DB) !important;
+    cursor: pointer;
+}
+
+// ── BOM Form Tech Validation banner ───────────────────────────────────
+
+.mfg-tech-validation-banner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--mfg-primary-light, #FEF3C7);
+    border: 1px solid #FCD34D;
+    border-left: 4px solid var(--mfg-primary, #D97706);
+    border-radius: var(--mfg-radius-sm, 6px);
+    padding: 10px 16px;
+    margin-bottom: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--mfg-primary-dark, #B45309);
+
+    .fa { font-size: 14px; }
+}
+
+.mfg-bom-tech-group.o_group {
+    border-left: 3px solid var(--mfg-primary, #D97706) !important;
+    background: rgba(254, 243, 199, 0.3) !important;
+    border-radius: var(--mfg-radius, 10px) !important;
+    padding: 14px 18px !important;
+    margin-bottom: 14px !important;
+}
+
+// ── Gantt popover ──────────────────────────────────────────────────────
+
+.mfg-gantt-popover {
+    font-size: 13px;
+    min-width: 200px;
+
+    .mfg-gantt-popover-header {
+        font-weight: 800;
+        font-size: 14px;
+        color: var(--mfg-text, #111827);
+        padding-bottom: 10px;
+        border-bottom: 1px solid var(--mfg-border, #E5E7EB);
+        margin-bottom: 10px;
+    }
+
+    .mfg-gantt-popover-body > div {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 3px 0;
+        color: var(--mfg-text-muted, #6B7280);
+        font-size: 12px;
+    }
+}
